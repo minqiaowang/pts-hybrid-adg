@@ -1,0 +1,48 @@
+{
+    "tutorials": [
+        {           
+            "title": "Introduction",
+            "description": "About the Hybrid ADG Workshop",
+            "partnumber": "Ennnnn_01",
+            "publisheddate": "5/6/2020",
+            "contentid": "12nnnn",
+            "filename": "../intro/intro.md"
+        },
+        {         
+            "title": "Lab 1: Access your ADG Workshop Environment",
+            "description": "Access your ADG Workshop Environment",
+            "publisheddate": "03/10/2020",
+            "filename": "../access-labenv/access-labenv.md"
+        },
+        {            
+            "title": "Lab 2: Prepare On Premise Database",
+            "description": "Prepare On Premise Database",
+            "publisheddate": "5/6/2020",
+            "filename": "../prepare-op-database/prepare-op-database.md"
+        },
+        {            
+            "title": "Lab 3: Setup Connectivity Between Primary and Standby",
+            "description": "Setup Connectivity Between Primary and Standby",
+            "publisheddate": "5/6/2020",
+            "filename": "../set-primary-standby/set-primary-standby.md"
+        },
+        {            
+            "title": "Lab 4: Deploy Active Data Guard with LVM",
+            "description": "Deploy Active Data Guard with LVM",
+            "publisheddate": "5/6/2020",
+            "filename": "../deploy-adg-lvm/deploy-adg-lvm.md"
+        },
+        {            
+            "title": "Lab 5: Testing with Active Data Guard",
+            "description": "Testing with Active Data Guard",
+            "publisheddate": "5/6/2020",
+            "filename": "../test-with-adg/test-with-adg.md"
+        },
+        {            
+            "title": "Lab 6: Failover and Reinstate",
+            "description": "Failover and Reinstate",
+            "publisheddate": "5/6/2020",
+            "filename": "../failover-and-reinstate/failover-and-reinstate.md"
+        }
+    ]
+}
