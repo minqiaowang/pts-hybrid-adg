@@ -302,9 +302,9 @@ VPN connection or Oracle Net encryption is also required for encryption-in-fligh
 2. Check the network service banner before encryption.
 
 ```
-SQL> set linesize 120
-SQL> col network_service_banner for a85
-SQL> select i.network_service_banner from v$session_connect_info i, v$session s where s.sid=i.sid and s.serial# = i.serial# and s.username = 'SYS';
+SQL> <copy>set linesize 120</copy>
+SQL> <copy>col network_service_banner for a85</copy>
+SQL> <copy>select i.network_service_banner from v$session_connect_info i, v$session s where s.sid=i.sid and s.serial# = i.serial# and s.username = 'SYS';</copy>
 
 NETWORK_SERVICE_BANNER
 -------------------------------------------------------------------------------------
@@ -313,7 +313,7 @@ Authentication service for Linux: Version 19.0.0.0.0 - Production
 Encryption service for Linux: Version 19.0.0.0.0 - Production
 Crypto-checksumming service for Linux: Version 19.0.0.0.0 - Production
 
-SQL> exit
+SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
 [oracle@primary ~]$
@@ -355,9 +355,9 @@ Connected to:
 Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
 
-SQL> set linesize 120
-SQL> col network_service_banner for a85
-SQL> select i.network_service_banner from v$session_connect_info i, v$session s where s.sid=i.sid and s.serial# = i.serial# and s.username = 'SYS';
+SQL> <copy>set linesize 120</copy>
+SQL> <copy>col network_service_banner for a85</copy>
+SQL> <copy>select i.network_service_banner from v$session_connect_info i, v$session s where s.sid=i.sid and s.serial# = i.serial# and s.username = 'SYS';</copy>
 
 NETWORK_SERVICE_BANNER
 -------------------------------------------------------------------------------------
@@ -392,7 +392,7 @@ SQL>
 2. Enable the archive mode and flashback on.
 
 ```
-SQL> shutdown immediate
+SQL> <copy>shutdown immediate</copy>
 Database closed.
 Database dismounted.
 ORACLE instance shut down.
@@ -405,19 +405,19 @@ Variable Size		 1275068416 bytes
 Database Buffers	 5553258496 bytes
 Redo Buffers		    7626752 bytes
 Database mounted.
-SQL> alter database archivelog;
+SQL> <copy>alter database archivelog;</copy>
 
 Database altered.
 
-SQL> !mkdir -p /u01/app/oracle/fra/ORCL
-SQL> ALTER SYSTEM SET DB_RECOVERY_FILE_DEST_SIZE = 10G SCOPE=BOTH SID='*';
-SQL> ALTER SYSTEM SET DB_RECOVERY_FILE_DEST = '/u01/app/oracle/fra/ORCL' SCOPE=BOTH SID='*';
+SQL> <copy>!mkdir -p /u01/app/oracle/fra/ORCL</copy>
+SQL> <copy>ALTER SYSTEM SET DB_RECOVERY_FILE_DEST_SIZE = 10G SCOPE=BOTH SID='*';</copy>
+SQL> <copy>ALTER SYSTEM SET DB_RECOVERY_FILE_DEST = '/u01/app/oracle/fra/ORCL' SCOPE=BOTH SID='*';</copy>
 
-SQL> alter database flashback on;
+SQL> <copy>alter database flashback on;</copy>
 
 Database altered.
 
-SQL> alter database open;
+SQL> <copy>alter database open;</copy>
 
 Database altered.
 
@@ -504,15 +504,15 @@ SQL>
 5. When the first 3 groups status is INACTIVE, you can drop these group now.
 
 ```
-SQL> alter database drop logfile group 1; 
+SQL> <copy>alter database drop logfile group 1;</copy> 
 
 Database altered.
 
-SQL> alter database drop logfile group 2; 
+SQL> <copy>alter database drop logfile group 2;</copy> 
 
 Database altered.
 
-SQL> alter database drop logfile group 3; 
+SQL> <copy>alter database drop logfile group 3;</copy> 
 
 Database altered.
 
@@ -522,23 +522,23 @@ SQL>
 6. Create 4 standby log group.
 
 ```
-SQL> alter database add standby logfile thread 1 '/u01/app/oracle/oradata/ORCL/srl_redo01.log' size 1024M;
+SQL> <copy>alter database add standby logfile thread 1 '/u01/app/oracle/oradata/ORCL/srl_redo01.log' size 1024M;</copy>
 
 Database altered.
 
-SQL> alter database add standby logfile thread 1 '/u01/app/oracle/oradata/ORCL/srl_redo02.log' size 1024M;
+SQL> <copy>alter database add standby logfile thread 1 '/u01/app/oracle/oradata/ORCL/srl_redo02.log' size 1024M;</copy>
 
 Database altered.
 
-SQL> alter database add standby logfile thread 1 '/u01/app/oracle/oradata/ORCL/srl_redo03.log' size 1024M;
+SQL> <copy>alter database add standby logfile thread 1 '/u01/app/oracle/oradata/ORCL/srl_redo03.log' size 1024M;</copy>
 
 Database altered.
 
-SQL> alter database add standby logfile thread 1 '/u01/app/oracle/oradata/ORCL/srl_redo04.log' size 1024M;
+SQL> <copy>alter database add standby logfile thread 1 '/u01/app/oracle/oradata/ORCL/srl_redo04.log' size 1024M;</copy>
 
 Database altered.
 
-SQL> select group#,thread#,bytes from v$standby_log;
+SQL> <copy>select group#,thread#,bytes from v$standby_log;</copy>
 
     GROUP#    THREAD#	   BYTES
 ---------- ---------- ----------
@@ -556,19 +556,19 @@ SQL>
 Modify some init parameters for best practice.
 
 ```
-SQL> alter system set STANDBY_FILE_MANAGEMENT=AUTO scope=both;
+SQL> <copy>alter system set STANDBY_FILE_MANAGEMENT=AUTO scope=both;</copy>
 
 System altered.
 
-SQL> alter system set DB_LOST_WRITE_PROTECT=TYPICAL scope=both;
+SQL> <copy>alter system set DB_LOST_WRITE_PROTECT=TYPICAL scope=both;</copy>
 
 System altered.
 
-SQL> alter system set FAST_START_MTTR_TARGET=300 scope=both;
+SQL> <copy>alter system set FAST_START_MTTR_TARGET=300 scope=both;</copy>
 
 System altered.
 
-SQL> exit;
+SQL> <copy>exit;</copy>
 ```
 
 You may proceed to the next lab.
