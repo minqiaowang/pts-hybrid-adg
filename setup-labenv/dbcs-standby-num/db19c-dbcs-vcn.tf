@@ -5,9 +5,9 @@ variable "region" {}
 variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 
-variable "num_instances" {
-  default = "1"
-}
+#variable "num_instances" {
+#  default = "1"
+#}
 
 terraform {
   required_version = ">= 0.12.0"

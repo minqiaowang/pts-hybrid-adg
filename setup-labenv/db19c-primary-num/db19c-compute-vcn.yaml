@@ -20,9 +20,9 @@ source:
 
 locale: "en"
 variableGroups:
-  - title: "# Enter the number of instances:"
-    variables:
-      - ${num_instances}
+  #- title: "# Enter the number of instances:"
+   # variables:
+    #  - ${num_instances}
   - title: "# Enter the instance shape:"
     variables:
       - ${instance_shape}
