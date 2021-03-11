@@ -41,7 +41,7 @@ To manually delete the database on the cloud host, run the steps below.
 
 ```
 $ sqlplus / as sysdba
-SQL> select DB_UNIQUE_NAME from v$database;
+SQL> <copy>select DB_UNIQUE_NAME from v$database;</copy>
 
 DB_UNIQUE_NAME
 ------------------------------
@@ -100,11 +100,11 @@ SQL>
 6. Shutdown the database. 
 
 ```
-SQL> shutdown immediate;
+SQL> <copy>shutdown immediate;</copy>
 Database closed.
 Database dismounted.
 ORACLE instance shut down.
-SQL> exit
+SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
 [oracle@dbcs ~]$ 
@@ -140,7 +140,7 @@ As **oracle** user, copy the on-premise database password file to cloud host `$O
 2. Run the command as **oracle** user.
 
 ```
-[oracle@dbcs ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/product/19c/dbhome_1/dbs/orapwORCL $ORACLE_HOME/dbs
+[oracle@dbcs ~]$ <copy>scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/product/19c/dbhome_1/dbs/orapwORCL $ORACLE_HOME/dbs</copy>
 orapwORCL 100% 2048    63.5KB/s   00:00    
 [oracle@dbcs ~]$
 ```
@@ -228,7 +228,7 @@ SID_LIST_LISTENER=
    - Reload the listener
 
    ```
-   [oracle@primary ~]$ lsnrctl reload
+   [oracle@primary ~]$ <copy>lsnrctl reload</copy>
 
    LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:27:23
 
@@ -270,7 +270,7 @@ SID_LIST_LISTENER=
    - Reload the listener
 
    ```
-   [oracle@dbcs ~]$ $ORACLE_HOME/bin/lsnrctl reload
+   [oracle@dbcs ~]$ <copy>$ORACLE_HOME/bin/lsnrctl reload</copy>
 
    LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:39:12
 
@@ -396,7 +396,7 @@ net.core.wmem_max = 134217728
 - Reload and check the values.
 
 ```
-[opc@primary ~]$ sudo /sbin/sysctl -p
+[opc@primary ~]$ <copy>sudo /sbin/sysctl -p</copy>
 fs.file-max = 6815744
 kernel.sem = 250 32000 100 128
 kernel.shmmni = 4096
@@ -411,7 +411,7 @@ net.ipv4.conf.all.rp_filter = 2
 net.ipv4.conf.default.rp_filter = 2
 fs.aio-max-nr = 1048576
 net.ipv4.ip_local_port_range = 9000 65500
-[opc@adgstudent1 ~]$ sudo /sbin/sysctl -a | egrep net.core.[w,r]mem_max
+[opc@primary ~]$ <copy>sudo /sbin/sysctl -a | egrep net.core.[w,r]mem_max</copy>
 net.core.rmem_max = 134217728
 net.core.wmem_max = 134217728
 sysctl: reading key "net.ipv6.conf.all.stable_secret"
@@ -473,16 +473,18 @@ SQL>
 4. Shutdown the database, connect with RMAN. Then startup database nomount.
 
 ```
-SQL> shutdown immediate
+SQL> <copy>shutdown immediate</copy>
 ORA-01109: database not open
 
 
 Database dismounted.
 ORACLE instance shut down.
-SQL> exit
+
+SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
-[oracle@dbcs ~]$ rman target /
+
+[oracle@dbcs ~]$ <copy>rman target /</copy>
 
 Recovery Manager: Release 19.0.0.0.0 - Production on Fri Jan 31 12:41:27 2020
 Version 19.9.0.0.0
@@ -491,7 +493,7 @@ Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 
 connected to target database (not started)
 
-RMAN> startup nomount
+RMAN> <copy>startup nomount</copy>
 
 Oracle instance started
 
@@ -508,7 +510,7 @@ RMAN>
 5. Restore control file from on-premise database and mount the cloud database.
 
 ```
-RMAN> restore standby controlfile from service 'ORCL';
+RMAN> <copy>restore standby controlfile from service 'ORCL';</copy>
 
 Starting restore at 01-FEB-20
 using target database control file instead of recovery catalog
@@ -523,7 +525,7 @@ output file name=/u02/app/oracle/oradata/ORCL_nrt1d4/control01.ctl
 output file name=/u03/app/oracle/fast_recovery_area/ORCL_nrt1d4/control02.ctl
 Finished restore at 01-FEB-20
 
-RMAN> alter database mount;
+RMAN> <copy>alter database mount;</copy>
 
 released channel: ORA_DISK_1
 Statement processed
@@ -534,7 +536,7 @@ RMAN>
 6. Now, restore database from on-premise database.
 
 ```
-RMAN> restore database from service 'ORCL' section size 5G;
+RMAN> <copy>restore database from service 'ORCL' section size 5G;</copy>
 
 Starting restore at 01-FEB-20
 Starting implicit crosscheck backup at 01-FEB-20
@@ -585,16 +587,17 @@ RMAN>
 7. Shutdown the database, connect to sqlplus as sysdba and mount the database again.
 
 ```
-RMAN> shutdown immediate
+RMAN> <copy>shutdown immediate</copy>
 
 database dismounted
 Oracle instance shut down
 
-RMAN> exit
+RMAN> <copy>exit</copy>
 
 
 Recovery Manager complete.
-[oracle@dbcs ~]$ sqlplus / as sysdba
+
+[oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 11:16:31 2020
 Version 19.9.0.0.0
@@ -603,7 +606,7 @@ Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 Connected to an idle instance.
 
-SQL> startup mount
+SQL> <copy>startup mount</copy>
 ORACLE instance started.
 
 Total System Global Area 1.6106E+10 bytes
@@ -676,7 +679,7 @@ SQL>
 - From on-premise side,
 
 ```
-SQL> show parameter dg_broker_config_file;
+SQL> <copy>show parameter dg_broker_config_file;</copy>
 
 NAME				     TYPE	 VALUE
 ------------------------------------ ----------- ------------------------------
@@ -684,16 +687,16 @@ dg_broker_config_file1		     string	 /u01/app/oracle/product/19.0.0
 						 /dbhome_1/dbs/dr1ORCL.dat
 dg_broker_config_file2		     string	 /u01/app/oracle/product/19.0.0
 						 /dbhome_1/dbs/dr2ORCL.dat
-SQL> show parameter dg_broker_start
+SQL> s<copy>how parameter dg_broker_start</copy>
 
 NAME				     TYPE	 VALUE
 ------------------------------------ ----------- ------------------------------
 dg_broker_start 		     boolean	 FALSE
-SQL> alter system set dg_broker_start=true;
+SQL> <copy>alter system set dg_broker_start=true;</copy>
 
 System altered.
 
-SQL> select pname from v$process where pname like 'DMON%';
+SQL> <copy>select pname from v$process where pname like 'DMON%';</copy>
 
 PNAME
 -----
@@ -705,7 +708,7 @@ SQL>
 - From cloud side
 
 ```
-SQL> show parameter dg_broker_config_file
+SQL> <copy>show parameter dg_broker_config_file</copy>
 
 NAME				     TYPE	 VALUE
 ------------------------------------ ----------- ------------------------------
@@ -715,16 +718,16 @@ dg_broker_config_file1		     string	 /u01/app/oracle/product/19.0.0
 dg_broker_config_file2		     string	 /u01/app/oracle/product/19.0.0
 						 .0/dbhome_1/dbs/dr2ORCL_nrt1d4
 						 .dat
-SQL> show parameter dg_broker_start
+SQL> <copy>show parameter dg_broker_start</copy>
 
 NAME				     TYPE	 VALUE
 ------------------------------------ ----------- ------------------------------
 dg_broker_start 		     boolean	 FALSE
-SQL> alter system set dg_broker_start=true;
+SQL> <copy>alter system set dg_broker_start=true;</copy>
 
 System altered.
 
-SQL> select pname from v$process where pname like 'DMON%';
+SQL> <copy>select pname from v$process where pname like 'DMON%';</copy>
 
 PNAME
 -----

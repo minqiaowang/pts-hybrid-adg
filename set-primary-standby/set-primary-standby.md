@@ -57,7 +57,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      - From on-premise side, generate the ssh key, and cat the public key, copy all the content in the id_rsa.pub
 
      ```
-     [oracle@primary ~]$ ssh-keygen -t rsa
+     [oracle@primary ~]$ <copy>ssh-keygen -t rsa</copy>
      Generating public/private rsa key pair.
      Enter file in which to save the key (/home/oracle/.ssh/id_rsa): 
      Enter passphrase (empty for no passphrase): 
@@ -65,7 +65,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      Your identification has been saved in /home/oracle/.ssh/id_rsa.
      Your public key has been saved in /home/oracle/.ssh/id_rsa.pub.
      The key fingerprint is:
-     SHA256:2S+UtAXQdwgNLRA7hjLP4RsMfDM0pW3p75hus8UQaG8 oracle@adgstudent1
+     SHA256:2S+UtAXQdwgNLRA7hjLP4RsMfDM0pW3p75hus8UQaG8 oracle@primary
      The key's randomart image is:
      +---[RSA 2048]----+
      |      o.==+= .   |
@@ -78,8 +78,9 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      |        o= .     |
      |       o=o.      |
      +----[SHA256]-----+
+     
      [oracle@primary ~]$ cat .ssh/id_rsa.pub
-     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCLV6NiFihUY4ItgfPLJR1EcjC7DjuVOL86G3VperrA8hEKP2uLSh7AEeKm4MZmPPIzO/HlMw3KkhhUZNX/C+b29tQ2l8+fbCzzMGmZSAGmT2vEmot/9lVT714l/rcfWNXv8qcj6x4wHUqygH87XSDcCRaQt7vUcFNITOb/4yGRc9LcSQdlV1Yf1eOfUnkpB1fOoEXFfkAxgd1UeuFS0pIiejutqbPSeppu9X2RrbAmZymAVa7MiNNG2mZHf9tWJrigXsTwmgOgPlsAIcbutoVRGPcP1xc43ut9oUWk8reBEyDj8X2bgeafG+KeXD6YRh53lqIbTNYz+k1sfHwyuUl oracle@workshop
+     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCLV6NiFihUY4ItgfPLJR1EcjC7DjuVOL86G3VperrA8hEKP2uLSh7AEeKm4MZmPPIzO/HlMw3KkhhUZNX/C+b29tQ2l8+fbCzzMGmZSAGmT2vEmot/9lVT714l/rcfWNXv8qcj6x4wHUqygH87XSDcCRaQt7vUcFNITOb/4yGRc9LcSQdlV1Yf1eOfUnkpB1fOoEXFfkAxgd1UeuFS0pIiejutqbPSeppu9X2RrbAmZymAVa7MiNNG2mZHf9tWJrigXsTwmgOgPlsAIcbutoVRGPcP1xc43ut9oUWk8reBEyDj8X2bgeafG+KeXD6YRh53lqIbTNYz+k1sfHwyuUl oracle@primary
      [oracle@primary ~]$  
      ```
 
@@ -89,7 +90,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      <copy>vi .ssh/authorized_keys</copy>
      ```
 
-     - From on-premise side, test the connect from on-premise to cloud, using the public ip of the cloud hosts.
+     - From on-premise side, test the connect from on-premise to cloud, using the public ip or hostname of the cloud hosts.
 
      ```
      [oracle@primary ~]$ ssh oracle@xxx.xxx.xxx.xxx echo Test success
@@ -99,7 +100,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      Are you sure you want to continue connecting (yes/no)? yes
      Warning: Permanently added '158.101.136.61' (ECDSA) to the list of known hosts.
      Test success
-     [oracle@workshop ~]$ 
+     [oracle@primary ~]$ 
      ```
 
 3. Configure prompt-less ssh from cloud to on-premise.
@@ -128,6 +129,7 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      |   o = =.o.      |
      |    o.=o+ o.     |
      +----[SHA256]-----+
+     
      [oracle@dbcs ~]$ cat .ssh/id_rsa.pub
      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC61WzEm1bYRkPnFf96Loq/eRGJKiSkeh9EFg3NzMBUmRq4rSWMsMkIkrLmrJUNF8I5tFMnSV+AQZo5vrtU23NVvxsQHF7rKYiMm9ARkACQmr1th8kefc/sJMn/3hQDm27FB5RLeZzbxyZoJAq7ZtLMfudlogaYxqLZLBnuHT8Oky/5FOa1EUVOaqiKm8f7pPlqnxpf1QdO8lswMvInWh3Zq9newfTmu/qt56shNd462uOyNjjCgRtmxsYXIxFhJecvDnkGJ+Tekq27nozBI+c3GyQS8tsyPnjt3DRg35sXJFWOeEswmxqxAjP0KWDFlSZ3aNm4ESS3ZPaTfSlgx0E1 oracle@dbstby
      [oracle@dbcs ~]$ 
@@ -145,10 +147,10 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      <copy>chmod 600 .ssh/authorized_keys</copy>
      ```
 
-     - From cloud side, test the connect from cloud to on-premise, using the public ip of the on-premise hosts.
+     - From cloud side, test the connect from cloud to on-premise, using the public ip or hostname of the on-premise hosts.
 
      ```
-     [oracle@dbcs ~]$ ssh oracle@xxx.xxx.xxx.xxx echo Test success
+     [oracle@dbcs ~]$ <copy>ssh oracle@xxx.xxx.xxx.xxx echo Test success</copy>
      The authenticity of host '140.238.18.190 (140.238.18.190)' can't be established.
      ECDSA key fingerprint is SHA256:1GMD9btUlIjLABsTsS387MUGD4LrZ4rxDQ8eyASBc8c.
      ECDSA key fingerprint is MD5:ff:8b:59:ac:05:dd:27:07:e1:3f:bc:c6:fa:4e:5d:5c.
