@@ -1,18 +1,18 @@
 # Test with ADG
 
-##Introduction
+## Introduction
 
 Now we can run some testing with the ADG. We will test the transaction replication, check the log lag, test DML redirection, and  switchover to the cloud.
 
 Estimated Lab Time: 30 minutes
 
-## Prerequisites
+### Prerequisites
 
 This lab assumes you have already completed the following labs:
 
 - Deploy Active Data Guard with LVM
 
-## Step 1: Test transaction replication
+## **Step 1:** Test transaction replication
 
 1. From on-premise side, create a test user in orclpdb, and grant privileges to the user. You need  to check if the pdb is open.
 
@@ -175,7 +175,7 @@ SQL>
 
 
 
-## Step 2: Check lag between the primary and standby
+## **Step 2:** Check lag between the primary and standby
 
 There are several ways to check the lag between the primary and standby.
 
@@ -389,7 +389,7 @@ There are several ways to check the lag between the primary and standby.
 
    
 
-## Step 3: Test DML Redirection
+## **Step 3:** Test DML Redirection
 
 Starting  with Oracle DB 19c, we can run DML operations on Active Data Guard standby databases. This enables you to occasionally execute DMLs on read-mostly applications on the standby database.
 
@@ -567,7 +567,7 @@ You may encounter the performance issue when using the DML redirection. This is 
 
 
 
-## Step 4: Switchover to the Cloud 
+## **Step 4:** Switchover to the Cloud 
 
 At any time, you can manually execute a Data Guard switchover (planned event) or failover (unplanned event). Customers may also choose to automate Data Guard failover by configuring Fast-Start failover. Switchover and failover reverse the roles of the databases in a Data Guard configuration – the standby in the cloud becomes primary and the original on-premise primary becomes a standby database. Refer to Oracle MAA Best Practices for additional information on Data Guard role transitions. 
 

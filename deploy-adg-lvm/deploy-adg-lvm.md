@@ -1,19 +1,19 @@
 # Deploy ADG Process
 
-##Introduction
+## Introduction
 
 This procedure is basically the same as migrating the database from on-premise to OCI. The Data Guard setup for a Single Instance (SI) or RAC should be the same. In the following steps you will setup Data Guard from an SI on-premise to an SI in the cloud infrastructure. If you want to setup Data Guard from an SI on-premise to a 2-Node RAC in the cloud infrastructure or RAC on-premise to an SI in the cloud infrastructure please refer to the whitepaper [hybrid-dg-to-oci-5444327](https://www.oracle.com/technetwork/database/availability/hybrid-dg-to-oci-5444327.pdf).
 
-Estimated Lab Time: 30 minutes
+Estimated Lab Time: 40 minutes
 
-##Prerequisites
+### Prerequisites
 
 This lab assumes you have already completed the following labs:
 - Setup Connectivity between on-premise and DBCS
 
 **Note: The following steps is for the cloud database using LVM for the storage management. If you chose ASM for the storage, please use the other Lab for ASM.**
 
-##Step 1: Manually Delete the Database Created by Tooling 
+## **Step 1:** Manually Delete the Database Created by Tooling 
 
 Please perform the below operations to delete the starter database files in the cloud and we will restore the on-premise database using RMAN. 
 
@@ -127,7 +127,7 @@ Version 19.9.0.0.0
 
 
 
-## Step 2: Copy the Password File to the Cloud host 
+## **Step 2:** Copy the Password File to the Cloud host 
 
 As **oracle** user, copy the on-premise database password file to cloud host `$ORACLE_HOME/dbs` directory. 
 
@@ -147,7 +147,7 @@ orapwORCL 100% 2048    63.5KB/s   00:00
 
 
 
-## Step 3: Copying the wallet file to the Cloud host. 
+## **Step 3:** Copying the wallet file to the Cloud host. 
 
 Make sure that `$ORACLE_HOME/network/admin/sqlnet.ora` contains the following line wallet file location is defined as `ENCRYPTION_WALLET_LOCATION` parameter in sqlnet.ora.
 
@@ -193,7 +193,7 @@ cwallet.sso                                                                     
 
 
 
-## Step 4: Configure Static Listeners 
+## **Step 4:** Configure Static Listeners 
 
 A static listener is needed for initial instantiation of a standby database. The static listener enables remote connection to an instance while the database is down in order to start a given instance. See MOS 1387859.1 for additional details.  A static listener for Data Guard Broker is optional. 
 
@@ -310,7 +310,7 @@ Version 19.9.0.0.0
 
 
 
-## Step 5: TNS Entries for Redo Transport 
+## **Step 5:** TNS Entries for Redo Transport 
 
 1. From on-premise side, switch as **oracle** user, edit the tnsnames.ora
 
@@ -423,7 +423,7 @@ sysctl: reading key "net.ipv6.conf.lo.stable_secret"
 
 
 
-## Step 6: Instantiate the Standby Database 
+## **Step 6:** Instantiate the Standby Database 
 
 The standby database can be created from the active primary database.
 
@@ -617,7 +617,7 @@ SQL>
 
 
 
-## Step 7: Clear all online and standby redo logs 
+## **Step 7:** Clear all online and standby redo logs 
 
 1. Copy the following command.
 
@@ -656,7 +656,7 @@ SQL>
 
 
 
-## Step 8: Configure Data Guard broker
+## **Step 8:** Configure Data Guard broker
 
 1. Copy the following command.
 

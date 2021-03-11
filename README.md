@@ -6,7 +6,6 @@ An effective disaster recovery plan can be costly due to the need to establish, 
 
 ## Workshops
 - [Click here to access the Workshop](https://minqiaowang.github.io/pts-hybrid-adg/workshops/freetier/index.html) using the web interface.
-- If you want to setup the on-premise and DBCS side using the terraform scripts. [Please refer this link.](https://github.com/minqiaowang/pts-hybrid-adg/blob/master/setup-labenv/setup-labenv-19.md)
 
 
 ## Get an Oracle Cloud Trial Account for Free!

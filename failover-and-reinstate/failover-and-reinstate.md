@@ -1,19 +1,19 @@
 # Failover and Reinstate
 
-##Introduction
+## Introduction
 
 A failover is an unplanned event that assumes the primary database is lost. The standby database is converted to a primary database immediately. A failover might result in some data loss when you use **Maximum Performance** protection mode. After a failover the old primary database must be reinstated as a physical standby which is made simpler with flashback database and Data Guard broker enabled. To execute a failover and reinstatement execute the following commands in Data Guard Broker. 
 
 Estimated Lab Time: 20 minutes
 
-## Prerequisites
+### Prerequisites
 
 This lab assumes you have already completed the following labs:
 
 - Deploy Active Data Guard with LVM
 - Test with Active Data Guard
 
-## Step 1: Setup the current primary database flashback on
+## **Step 1:** Setup the current primary database flashback on
 
 In the previous lab, you have done the Data Guard switch over. Now, the current primary database is the DBCS and the current standby database in the on-premise database.
 
@@ -81,7 +81,7 @@ Version 19.9.0.0.0
 [oracle@dbstby ~]$ 
 ```
 
-## Step 2: Failover
+## **Step 2:** Failover
 
 1. Connect with DGMGRL, validate the primary and standby database
 
@@ -168,7 +168,7 @@ DGMGRL>
 
 Now, the primary is the on-premise database, and the standby database is disabled, which needs to be reinstated.
 
-## Step 3: Reinstate the previous primary database
+## **Step 3:** Reinstate the previous primary database
 
 1. In cloud side(the previous primary), connect to sqlplus as sysdba, shutdown the database and startup mount before reinstating. 
 

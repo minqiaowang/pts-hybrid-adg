@@ -23,7 +23,7 @@ This lab assumes you have:
 
 ## **STEP 1**: Connect to your Compute instance
 
-There are multiple ways to connect to your cloud instance.  Choose the way to connect to your cloud instance using the SSH Key you downloaded and unzipped. 
+There are multiple ways to connect to your cloud instance. Choose the way to connect to your cloud instance using the SSH private Key. 
 
 - MAC or Windows CYCGWIN Emulator
 
@@ -65,7 +65,7 @@ There are multiple ways to connect to your cloud instance.  Choose the way to co
 
 8. Click Open to begin your session with the instance.
 
-## Step 2: Verify the Primary Database is Up
+## **Step 2:** Verify the Primary Database is Up
 
 1. From your connected session of choice **tail** the `buildsingle.log`  file. This file has the configures log of the database.
 
@@ -77,7 +77,7 @@ There are multiple ways to connect to your cloud instance.  Choose the way to co
 
    ![](images/tailOfBuildDBInstanceLog.png " ")
 
-2. When you see the following message, the database setup is complete - **Completed successfully in XXXX seconds** (this may take up to 30 minutes). You can do the step 6 while wait the database ready .
+2. When you see the following message, the database setup is complete - **Completed successfully in XXXX seconds**.
 
    ![](images/tailOfBuildDBInstanceLog_finished.png " ")
 
@@ -131,7 +131,7 @@ There are multiple ways to connect to your cloud instance.  Choose the way to co
 
 You now have a fully functional Oracle Database 19c instance **ORCL** running on Oracle Cloud Compute, the default pdb name is **orclpdb**.
 
-## **STEP 2**: Browse the DBCS on OCI
+## **STEP 3**: Browse the DBCS on OCI
 
 You can browse the Database Cloud Service that assigned to you.
 1.  Connect to the Oracle Cloud Infrastructure Using the URL that instructor provided, like: `https://console.**-***-1.oraclecloud.com`. Enter the tenant name, username and password. 
