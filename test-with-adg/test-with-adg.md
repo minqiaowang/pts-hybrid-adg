@@ -183,8 +183,8 @@ There are several ways to check the lag between the primary and standby.
 
    ```
    <copy>
-   wget https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/workload.sh
-   wget https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/scn.sql
+   wget https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/main/test-with-adg/workload.sh
+   wget https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/main/test-with-adg/scn.sql
    </copy>
    ```
 
@@ -193,45 +193,35 @@ There are several ways to check the lag between the primary and standby.
 2. From on-premise side, run as **oracle** user, download scripts using the command you copied.
 
    ```
-   [oracle@primary ~]$ wget https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/workload.sh
-   --2020-09-05 09:22:06--  https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/workload.sh
-   Resolving github.com (github.com)... 140.82.112.4
-   Connecting to github.com (github.com)|140.82.112.4|:443... connected.
-   HTTP request sent, awaiting response... 302 Found
-   Location: https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/master/test-with-adg/workload.sh [following]
-   --2020-09-05 09:22:07--  https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/master/test-with-adg/workload.sh
-   Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.156.133
-   Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.156.133|:443... connected.
+   [oracle@primary ~]$ wget https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/main/test-with-adg/workload.sh
+   --2021-03-11 07:04:12--  https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/main/test-with-adg/workload.sh
+   Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.111.133, 185.199.110.133, 185.199.108.133, ...
+   Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
    HTTP request sent, awaiting response... 200 OK
    Length: 1442 (1.4K) [text/plain]
    Saving to: ‘workload.sh’
    
-   100%[================================================>] 1,442       --.-K/s   in 0s      
+   100%[=================================================>] 1,442       --.-K/s   in 0s      
    
-   2020-09-05 09:22:08 (12.4 MB/s) - ‘workload.sh’ saved [1442/1442]
+   2021-03-11 07:04:12 (11.7 MB/s) - ‘workload.sh’ saved [1442/1442]
    
-   [oracle@primary ~]$ wget https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/scn.sql
-   --2020-09-05 09:22:16--  https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/scn.sql
-   Resolving github.com (github.com)... 140.82.112.4
-   Connecting to github.com (github.com)|140.82.112.4|:443... connected.
-   HTTP request sent, awaiting response... 302 Found
-   Location: https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/master/test-with-adg/scn.sql [following]
-   --2020-09-05 09:22:17--  https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/master/test-with-adg/scn.sql
-   Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.156.133
-   Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.156.133|:443... connected.
+   [oracle@primary ~]$ wget https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/main/test-with-adg/scn.sql
+   --2021-03-11 07:07:43--  https://raw.githubusercontent.com/minqiaowang/pts-hybrid-adg/main/test-with-adg/scn.sql
+   Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.108.133, 185.199.109.133, ...
+   Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.
    HTTP request sent, awaiting response... 200 OK
    Length: 108 [text/plain]
    Saving to: ‘scn.sql’
    
-   100%[================================================>] 108         --.-K/s   in 0s      
+   100%[=================================================>] 108         --.-K/s   in 0s      
    
-   2020-09-05 09:22:17 (3.37 MB/s) - ‘scn.sql’ saved [108/108]
+   2021-03-11 07:07:43 (2.89 MB/s) - ‘scn.sql’ saved [108/108]
    
    [oracle@primary ~]$ 
    ```
-
    
-
+   
+   
 3. Change mode of the `workload.sh` file and run the workload. Ignore the error message of drop table. Keep this window open and running for the next few steps in this lab.
 
    ```
