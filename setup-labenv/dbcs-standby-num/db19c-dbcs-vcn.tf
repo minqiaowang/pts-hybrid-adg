@@ -161,7 +161,7 @@ data "oci_identity_availability_domain" "local_ad" {
 ##
 
 resource "oci_database_db_system" "db_system" {
-  count               = "${var.num_instances}"
+  #count               = "${var.num_instances}"
   availability_domain = "${data.oci_identity_availability_domain.local_ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   database_edition    = "${var.db_edition}"
@@ -181,7 +181,7 @@ resource "oci_database_db_system" "db_system" {
     }
 
     db_version   = "${var.db_version}"
-    display_name = "DBCS${count.index}"
+    display_name = "DBCS"
   }
 
   db_system_options {
@@ -191,8 +191,8 @@ resource "oci_database_db_system" "db_system" {
   shape                   = "${var.db_system_shape}"
   subnet_id               = "${oci_core_subnet.example-public-subnet1.id}"
   ssh_public_keys         = ["${var.ssh_public_key}"]
-  display_name            = "DBCS${count.index}"
-  hostname                = "DBCS${count.index}"
+  display_name            = "DBCS"
+  hostname                = "DBCS"
   data_storage_size_in_gb = "256"
   license_model           = "${var.license_model}"
   node_count              = "1"

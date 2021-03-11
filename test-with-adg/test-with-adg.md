@@ -1,6 +1,10 @@
 # Test with ADG
 
-Now we can run some testing with the ADG.
+##Introduction
+
+Now we can run some testing with the ADG. We will test the transaction replication, check the log lag, test DML redirection, and  switchover to the cloud.
+
+Estimated Lab Time: 30 minutes
 
 ## Prerequisites
 

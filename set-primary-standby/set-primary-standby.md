@@ -31,48 +31,14 @@ ssh -i labkey opc@xxx.xxx.xxx.xxx
    - From on-premise side, add the cloud host **public ip**, hostname and domain name in the file like the following:
 
    ```
-   xxx.xxx.xxx.xxx dbcs**.subnet1.standbyvcn.oraclevcn.com dbcs**
+   xxx.xxx.xxx.xxx dbcs.subnet1.standbyvcn.oraclevcn.com dbcs
    ```
 
    - From the cloud side, add the on-premise host **public ip**, hostname and domain name in the file like the following:
 
    ```
-   xxx.xxx.xxx.xxx primary**.subnet1.primaryvcn.oraclevcn.com primary**
+   xxx.xxx.xxx.xxx primary.subnet1.primaryvcn.oraclevcn.com primary
    ```
-
-3. Validate the connectivity, install telnet on both sides.
-
-```
-<copy>sudo yum -y install telnet</copy>
-```
-
-   - From the on-premise side, telnet the public ip or hostname of the cloud host, enter `^]` and return to exist. 
-
-    ```
-     [opc@workshop ~]$ telnet xxx.xxx.xxx.xxx 1521
-     Trying 158.101.136.61...
-     Connected to 158.101.136.61.
-     Escape character is '^]'.
-     ^]
-         
-    telnet> q
-     Connection closed.
-     [opc@workshop ~]$ 
-     ```
-
-   - From the cloud side, telnet the public ip or hostname of the on-premise host, enter `^]` and return to exist. 
-
-    ```
-     [opc@dbstby ~]$ telnet xxx.xxx.xxx.xxx 1521
-     Trying 140.238.18.190...
-     Connected to 140.238.18.190.
-     Escape character is '^]'.
-     ^]
-         
-    telnet> q
-     Connection closed.
-     [opc@dbstby ~]$
-     ```
 
 
 

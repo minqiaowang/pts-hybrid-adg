@@ -1,6 +1,10 @@
 # Failover and Reinstate
 
+##Introduction
+
 A failover is an unplanned event that assumes the primary database is lost. The standby database is converted to a primary database immediately. A failover might result in some data loss when you use **Maximum Performance** protection mode. After a failover the old primary database must be reinstated as a physical standby which is made simpler with flashback database and Data Guard broker enabled. To execute a failover and reinstatement execute the following commands in Data Guard Broker. 
+
+Estimated Lab Time: 20 minutes
 
 ## Prerequisites
 
