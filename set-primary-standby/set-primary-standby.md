@@ -1,6 +1,9 @@
 # Set connectivity between on-premise host and cloud host
 
+##Introduction
 In a Data Guard configuration, information is transmitted in both directions between primary and standby databases. This requires basic configuration, network tuning and opening of ports at both primary and standby databases. 
+
+Estimated Lab Time: 20 minutes
 
 ##Prerequisites
 
@@ -189,3 +192,6 @@ Now you will configure the prompt-less ssh for oracle users between on-premise a
      [oracle@dbstby ~]$ 
      ```
 
+
+
+You may proceed to the next lab.

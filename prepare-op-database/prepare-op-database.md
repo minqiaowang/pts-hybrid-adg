@@ -1,6 +1,10 @@
 # Prepare On Premise Database
 
-In this lab, You will use a compute instance in the OCI to simulate the on-premise primary database. In Lab3, the Oracle 19c database has been installed and patched to 19.7.0. The on-premise primary database can deploy into a different region from the cloud database which will act as your stand-by database.
+##Introduction
+
+In this lab, you will use a compute instance in the OCI to simulate the on-premise primary database. In this instance, the Oracle 19c database has been installed. The on-premise primary database can deploy into a different region from the cloud database which will act as your standby database.
+
+Estimated Lab Time: 30 minutes
 
 ## Prerequisites
 
@@ -55,10 +59,10 @@ ENCRYPTION_WALLET_LOCATION =
 </copy>
 ```
 
-5. Connect to sqlplus as sysdba, create keystore.
+5. Connect to sqlplus as sysdba.
 
 ```
-[oracle@workshop ~]$ sqlplus / as sysdba
+[oracle@workshop ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Fri Jan 31 03:26:52 2020
 Version 19.9.0.0.0
@@ -70,17 +74,25 @@ Connected to:
 Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
 
-SQL> administer key management create keystore '/u01/app/oracle/admin/ORCL/wallet' identified by "Ora_DB4U";
-
-keystore altered.
-
 SQL> 
 ```
 
-6. Open the keystore.
+6. Create keystore.
+
+   ```
+   SQL> <copy>administer key management create keystore '/u01/app/oracle/admin/ORCL/wallet' identified by "Ora_DB4U";</copy>
+   
+   keystore altered.
+   
+   SQL> 
+   ```
+
+   
+
+7. Open the keystore.
 
 ```
-SQL> administer key management set keystore open identified by "Ora_DB4U"  container=all;
+SQL> <copy>administer key management set keystore open identified by "Ora_DB4U" container=all;</copy>
 
 keystore altered.
 
@@ -90,7 +102,7 @@ SQL>
 7. Create master key.
 
 ```
-SQL> administer key management set key identified by "Ora_DB4U" with backup using 'backup' container=all;
+SQL> <copy>administer key management set key identified by "Ora_DB4U" with backup using 'backup' container=all;</copy>
 
 keystore altered.
 
@@ -100,7 +112,7 @@ SQL>
 8. Verify the keystore, you can see the wallet is openned by password.
 
 ```
-SQL> select * from v$encryption_wallet;
+SQL> <copy>select * from v$encryption_wallet;</copy>
 
 WRL_TYPE
 --------------------
@@ -150,7 +162,7 @@ SQL>
 9. Make keystore autologin.
 
 ```
-SQL> administer key management create auto_login keystore from keystore '/u01/app/oracle/admin/ORCL/wallet' identified by "Ora_DB4U";
+SQL> <copy>administer key management create auto_login keystore from keystore '/u01/app/oracle/admin/ORCL/wallet' identified by "Ora_DB4U";</copy>
 
 keystore altered.
 
@@ -160,7 +172,7 @@ SQL>
 10. Reset wallet from PASSWORD to AUTOLOGIN mode.
 
 ```
-SQL> administer key management set keystore close identified by "Ora_DB4U" container=all;
+SQL> <copy>administer key management set keystore close identified by "Ora_DB4U" container=all;</copy>
 
 keystore altered.
 
@@ -170,7 +182,7 @@ SQL>
 11. Verify the keystore again, now you can see the wallet is configure to autologin.
 
 ```
-SQL> select * from v$encryption_wallet;
+SQL> <copy>select * from v$encryption_wallet;</copy>
 
 WRL_TYPE
 --------------------
@@ -223,38 +235,46 @@ SQL>
 
 According to the best practice, you should encrypt all the data files. In this lab, we only encrypt the **USERS** tablespace in the pdb.
 
-1. Connect to the orclpdb, check the encrypt status of the tablespace.
+1. Connect to the orclpdb.
 
 ```
-SQL> alter session set container=orclpdb;
+SQL> <copy>alter session set container=orclpdb;</copy>
 
 Session altered.
 
-SQL> select tablespace_name, encrypted from dba_tablespaces;
-
-TABLESPACE_NAME 	       ENC
------------------------------- ---
-SYSTEM			       NO
-SYSAUX			       NO
-UNDOTBS1		       NO
-TEMP			       NO
-USERS			       NO
+SQL> 
 ```
 
-2. Run the command to encrypt the USERS tablespace online.
+2. Check the encrypt status of the tablespace.
 
    ```
-   SQL> alter tablespace users encryption online encrypt;
+   SQL> <copy>select tablespace_name, encrypted from dba_tablespaces;</copy>
+   
+   TABLESPACE_NAME 	       ENC
+   ------------------------------ ---
+   SYSTEM			       NO
+   SYSAUX			       NO
+   UNDOTBS1		       NO
+   TEMP			       NO
+   USERS			       NO
+   ```
 
+   
+
+3. Run the command to encrypt the USERS tablespace online.
+
+   ```
+   SQL> <copy>alter tablespace users encryption online encrypt;</copy>
+   
    Tablespace altered.
    ```
 
    
 
-3.  Check the status. You can see the USERS tablespace has already encrypted.
+4. Check the status. You can see the USERS tablespace has already encrypted.
 
 ```
-SQL> select tablespace_name, encrypted from dba_tablespaces;
+SQL> <copy>select tablespace_name, encrypted from dba_tablespaces;</copy>
 
 TABLESPACE_NAME 	       ENC
 ------------------------------ ---
@@ -360,7 +380,7 @@ SQL>
 1. Check the achivelog mode, you can find it's disable now.
 
 ```
-SQL> archive log list
+SQL> <copy>archive log list</copy>
 Database log mode	       No Archive Mode
 Automatic archival	       Disabled
 Archive destination	       USE_DB_RECOVERY_FILE_DEST
@@ -407,7 +427,7 @@ SQL>
 3. Check the status again, it's enable now.
 
 ```
-SQL> archive log list
+SQL> <copy>archive log list</copy>
 Database log mode	       Archive Mode
 Automatic archival	       Enabled
 Archive destination	       USE_DB_RECOVERY_FILE_DEST
@@ -420,7 +440,7 @@ SQL>
 4. Enable force logging.
 
 ```
-SQL> alter database force logging;
+SQL> <copy>alter database force logging;</copy>
 
 Database altered.
 
@@ -434,7 +454,7 @@ SQL>
 1. Change the redo log size to 1024M according to the best practice. Check the status of the redo log first.
 
 ```
-SQL> select group#, bytes, status from v$log;
+SQL> <copy>select group#, bytes, status from v$log;</copy>
 
     GROUP#	BYTES STATUS
 ---------- ---------- ----------------
@@ -465,7 +485,7 @@ alter system checkpoint;
 4. Check the status again.
 
 ```
-SQL> select group#, bytes, status from v$log;
+SQL> <copy>select group#, bytes, status from v$log;</copy>
 
     GROUP#	BYTES STATUS
 ---------- ---------- ----------------
@@ -551,3 +571,4 @@ System altered.
 SQL> exit;
 ```
 
+You may proceed to the next lab.

@@ -698,3 +698,4 @@ READ WRITE	     PRIMARY
 SQL> 
 ```
 
+You may proceed to the next lab.

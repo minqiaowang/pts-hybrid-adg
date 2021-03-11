@@ -173,11 +173,11 @@ Choose the environment where you created your ssh-key in the previous lab (Gener
 
 ## Step 5: Verify the Database is Up
 
-1.  From your connected session of choice **tail** the `buildsingle.log` or `buildsingle1.log` file. This file has the configures log of the database.
+1.  From your connected session of choice **tail** the `buildsingle.log`  file. This file has the configures log of the database.
 
     ````
     <copy>
-    tail -f /u01/ocidb/buildsingle*.log
+    tail -f /u01/ocidb/buildsingle.log
     </copy>
     ````
     ![](./images/tailOfBuildDBInstanceLog.png " ")

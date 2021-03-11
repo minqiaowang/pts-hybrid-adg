@@ -766,3 +766,4 @@ if there is a warning message, `Warning: ORA-16809: multiple warnings detected f
 
 Now, the Hybrid Data Guard is ready. The standby database is in mount status.
 
+You may proceed to the next lab.

@@ -30,6 +30,7 @@ variable "VCN-example" { default = "10.0.0.0/16" }
 ##
 
 variable "db_admin_password" {
+  default = "WelcomePTS_123#"
   description = "Database Administrator User Password"
 }
 

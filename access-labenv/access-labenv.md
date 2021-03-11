@@ -6,6 +6,8 @@ In this lab, you will learn how to access your ADG workshop environment. You wil
 - A VM which already have installed a database 19c to simulate the on-premise database. You can connect to the VM instance with a ssh tools. The hostname and public ip address will be provide by the instructor.
 - A Database Cloud Service which act as the standby database in the workshop. You will be assigned an OCI account to log into the Oracle Cloud console to access and manage your DBCS.
 
+Estimated Lab Time: 20 minutes
+
 ### Prerequisites
 
 This lab assumes you have:
@@ -14,8 +16,6 @@ This lab assumes you have:
 - The Region and Compartment where the DBCS created.
 
 - A DBCS which assigned to you to act the standby database.
-
-- SSH Keys download from [here - labkey.zip](https://github.com/minqiaowang/hybrid-adg-apac/raw/master/ssh-keys/labkey.zip). Unzip the files to your own laptop.
 
 - A compute VM instance hostname and IP address which assigned to you to act as the on-premise database.
 
@@ -65,11 +65,77 @@ There are multiple ways to connect to your cloud instance.  Choose the way to co
 
 8. Click Open to begin your session with the instance.
 
+## Step 2: Verify the Primary Database is Up
+
+1. From your connected session of choice **tail** the `buildsingle.log`  file. This file has the configures log of the database.
+
+   ````
+   <copy>
+   tail -f /u01/ocidb/buildsingle.log
+   </copy>
+   ````
+
+   ![](images/tailOfBuildDBInstanceLog.png " ")
+
+2. When you see the following message, the database setup is complete - **Completed successfully in XXXX seconds** (this may take up to 30 minutes). You can do the step 6 while wait the database ready .
+
+   ![](images/tailOfBuildDBInstanceLog_finished.png " ")
+
+3. Run the following command to verify the database with the SID **ORCL** is up and running.
+
+   ````
+   <copy>
+   ps -ef | grep ORCL
+   </copy>
+   ````
+
+   ![](images/pseforcl.png " ")
+
+4. Verify the listener is running:
+
+   ````
+   <copy>
+   ps -ef | grep tns
+   </copy>
+   ````
+
+   ![](images/pseftns.png " ")
+
+5. Connect to the Database using SQL*Plus as the **oracle** user.
+
+   ````
+   <copy>
+   sudo su - oracle
+   sqlplus system/Ora_DB4U@localhost:1521/orclpdb
+   exit
+   </copy>
+   ````
+
+   ![](images/sqlplus_login_orclpdb.png " ")
+
+6. To leave `sqlplus` you need to use the exit command. Copy and paste the text below into your terminal to exit sqlplus.
+
+   ````
+   <copy>
+   exit
+   </copy>
+   ````
+
+7. Copy and paste the below command to exit from oracle user and become an **opc** user.
+
+   ````
+   <copy>
+   exit
+   </copy>
+   ````
+
+You now have a fully functional Oracle Database 19c instance **ORCL** running on Oracle Cloud Compute, the default pdb name is **orclpdb**.
+
 ## **STEP 2**: Browse the DBCS on OCI
 
 You can browse the Database Cloud Service that assigned to you.
 1.  Connect to the Oracle Cloud Infrastructure Using the URL that instructor provided, like: `https://console.**-***-1.oraclecloud.com`. Enter the tenant name, username and password. 
-    
+  
     ![](images/image-20200808121527712.png)
     
 2.  After signed into the OCI console, Open the navigation menu. Under **Database**, click **Bare Metal, VM, and Exadata**.
