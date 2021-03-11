@@ -104,6 +104,7 @@ SQL> <copy>shutdown immediate;</copy>
 Database closed.
 Database dismounted.
 ORACLE instance shut down.
+
 SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
@@ -507,24 +508,32 @@ Redo Buffers                  24399872 bytes
 RMAN> 
 ```
 
-5. Restore control file from on-premise database and mount the cloud database.
+5. Restore control file from on-premise database.
+
+   ```
+   RMAN> <copy>restore standby controlfile from service 'ORCL';</copy>
+   
+   Starting restore at 01-FEB-20
+   using target database control file instead of recovery catalog
+   allocated channel: ORA_DISK_1
+   channel ORA_DISK_1: SID=11 device type=DISK
+   
+   channel ORA_DISK_1: starting datafile backup set restore
+   channel ORA_DISK_1: using network backup set from service ORCL
+   channel ORA_DISK_1: restoring control file
+   channel ORA_DISK_1: restore complete, elapsed time: 00:00:02
+   output file name=/u02/app/oracle/oradata/ORCL_nrt1d4/control01.ctl
+   output file name=/u03/app/oracle/fast_recovery_area/ORCL_nrt1d4/control02.ctl
+   Finished restore at 01-FEB-20
+   
+   RMAN> 
+   ```
+
+   
+
+6.  Mount the cloud database.
 
 ```
-RMAN> <copy>restore standby controlfile from service 'ORCL';</copy>
-
-Starting restore at 01-FEB-20
-using target database control file instead of recovery catalog
-allocated channel: ORA_DISK_1
-channel ORA_DISK_1: SID=11 device type=DISK
-
-channel ORA_DISK_1: starting datafile backup set restore
-channel ORA_DISK_1: using network backup set from service ORCL
-channel ORA_DISK_1: restoring control file
-channel ORA_DISK_1: restore complete, elapsed time: 00:00:02
-output file name=/u02/app/oracle/oradata/ORCL_nrt1d4/control01.ctl
-output file name=/u03/app/oracle/fast_recovery_area/ORCL_nrt1d4/control02.ctl
-Finished restore at 01-FEB-20
-
 RMAN> <copy>alter database mount;</copy>
 
 released channel: ORA_DISK_1
@@ -533,7 +542,7 @@ Statement processed
 RMAN> 
 ```
 
-6. Now, restore database from on-premise database.
+7. Now, restore database from on-premise database.
 
 ```
 RMAN> <copy>restore database from service 'ORCL' section size 5G;</copy>
@@ -584,19 +593,27 @@ Finished restore at 01-FEB-20
 RMAN> 
 ```
 
-7. Shutdown the database, connect to sqlplus as sysdba and mount the database again.
+8. Shutdown the database.
+
+   ```
+   RMAN> <copy>shutdown immediate</copy>
+   
+   database dismounted
+   Oracle instance shut down
+   
+   RMAN> <copy>exit</copy>
+   
+   
+   Recovery Manager complete.
+   
+   [oracle@dbcs ~]$ 
+   ```
+
+   
+
+9. Connect to sqlplus as sysdba and mount the database again.
 
 ```
-RMAN> <copy>shutdown immediate</copy>
-
-database dismounted
-Oracle instance shut down
-
-RMAN> <copy>exit</copy>
-
-
-Recovery Manager complete.
-
 [oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 11:16:31 2020
@@ -748,12 +765,16 @@ Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 Welcome to DGMGRL, type "help" for information.
 Connected to "ORCL"
 Connected as SYSDBA.
+
 DGMGRL> CREATE CONFIGURATION adgconfig AS PRIMARY DATABASE IS ORCL CONNECT IDENTIFIER IS ORCL;
 Configuration "adgconfig" created with primary database "orcl"
+
 DGMGRL> ADD DATABASE ORCL_nrt1d4 AS CONNECT IDENTIFIER IS ORCL_nrt1d4 MAINTAINED AS PHYSICAL;
 Database "orcl_nrt1d4" added
+
 DGMGRL> enable configuration;
 Enabled.
+
 DGMGRL> SHOW CONFIGURATION;
 
 Configuration - adgconfig
