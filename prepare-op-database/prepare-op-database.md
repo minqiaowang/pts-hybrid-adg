@@ -62,7 +62,7 @@ ENCRYPTION_WALLET_LOCATION =
 5. Connect to sqlplus as sysdba.
 
 ```
-[oracle@workshop ~]$ <copy>sqlplus / as sysdba</copy>
+[oracle@primary ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Fri Jan 31 03:26:52 2020
 Version 19.9.0.0.0

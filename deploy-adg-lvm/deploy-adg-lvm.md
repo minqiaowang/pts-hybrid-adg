@@ -65,7 +65,7 @@ ORCL_nrt1d4
 5. Run in sqlplus as sysdba. This will create a script to remove all database files. 
 
 ```
-[oracle@dbstby ~]$ sqlplus / as sysdba
+[oracle@dbcs ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Fri Jan 31 08:20:03 2020
 Version 19.9.0.0.0
@@ -107,7 +107,7 @@ ORACLE instance shut down.
 SQL> exit
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
-[oracle@dbstby ~]$ 
+[oracle@dbcs ~]$ 
 ```
 
 7. Remove database files 
@@ -117,10 +117,10 @@ Version 19.9.0.0.0
  Edit /tmp/files.lst created previously to remove any unneeded lines from sqlplus. Leaving all lines beginning with 'rm'. Then run it.
 
  ```
- [oracle@dbstby ~]$ chmod 777 /tmp/files.lst
- [oracle@dbstby ~]$ vi /tmp/files.lst
- [oracle@dbstby ~]$ . /tmp/files.lst
- [oracle@dbstby ~]$ 
+ [oracle@dbcs ~]$ chmod 777 /tmp/files.lst
+ [oracle@dbcs ~]$ vi /tmp/files.lst
+ [oracle@dbcs ~]$ . /tmp/files.lst
+ [oracle@dbcs ~]$ 
  ```
 
  All files for the starter database have now been removed. 
@@ -140,9 +140,9 @@ As **oracle** user, copy the on-premise database password file to cloud host `$O
 2. Run the command as **oracle** user.
 
 ```
-[oracle@dbstby ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/product/19c/dbhome_1/dbs/orapwORCL $ORACLE_HOME/dbs
+[oracle@dbcs ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/product/19c/dbhome_1/dbs/orapwORCL $ORACLE_HOME/dbs
 orapwORCL 100% 2048    63.5KB/s   00:00    
-[oracle@dbstby ~]$
+[oracle@dbcs ~]$
 ```
 
 
@@ -183,12 +183,12 @@ Make sure that `$ORACLE_HOME/network/admin/sqlnet.ora` contains the following li
 2. Run this command as **oracle user**, copy the wallet files from on-premise host and change the files mode to 600.
 
 ```
-[oracle@dbstby ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
+[oracle@dbcs ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
 ewallet.p12                                                                                       100% 5467   153.2KB/s   00:00    
-[oracle@dbstby ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/cwallet.sso /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
+[oracle@dbcs ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/cwallet.sso /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
 cwallet.sso                                                                                       100% 5512   147.4KB/s   00:00    
-[oracle@dbstby ~]$ chmod 600 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4/*wallet*
-[oracle@dbstby ~]$
+[oracle@dbcs ~]$ chmod 600 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4/*wallet*
+[oracle@dbcs ~]$
 ```
 
 
@@ -228,7 +228,7 @@ SID_LIST_LISTENER=
    - Reload the listener
 
    ```
-   [oracle@workshop ~]$ lsnrctl reload
+   [oracle@primary ~]$ lsnrctl reload
 
    LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:27:23
 
@@ -236,7 +236,7 @@ SID_LIST_LISTENER=
 
    Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=workshop)(PORT=1521)))
    The command completed successfully
-   [oracle@dbstby ~]$ 
+   [oracle@primary ~]$ 
    ```
 
 2. From cloud side
@@ -270,7 +270,7 @@ SID_LIST_LISTENER=
    - Reload the listener
 
    ```
-   [oracle@dbstby ~]$ $ORACLE_HOME/bin/lsnrctl reload
+   [oracle@dbcs ~]$ $ORACLE_HOME/bin/lsnrctl reload
 
    LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 31-JAN-2020 11:39:12
 
@@ -278,13 +278,13 @@ SID_LIST_LISTENER=
 
    Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=LISTENER)))
    The command completed successfully
-   [oracle@dbstby ~]$ 
+   [oracle@dbcs ~]$ 
    ```
 
 3. Mount the Standby database.
 
 ```
-[oracle@dbstby ~]$ sqlplus / as sysdba
+[oracle@dbcs ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 10:50:18 2020
 Version 19.9.0.0.0
@@ -305,7 +305,7 @@ Database mounted.
 SQL> exit
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
-[oracle@dbstby ~]$ 
+[oracle@dbcs ~]$ 
 ```
 
 
@@ -396,7 +396,7 @@ net.core.wmem_max = 134217728
 - Reload and check the values.
 
 ```
-[opc@adgstudent1 ~]$ sudo /sbin/sysctl -p
+[opc@primary ~]$ sudo /sbin/sysctl -p
 fs.file-max = 6815744
 kernel.sem = 250 32000 100 128
 kernel.shmmni = 4096
@@ -418,7 +418,7 @@ sysctl: reading key "net.ipv6.conf.all.stable_secret"
 sysctl: reading key "net.ipv6.conf.default.stable_secret"
 sysctl: reading key "net.ipv6.conf.ens3.stable_secret"
 sysctl: reading key "net.ipv6.conf.lo.stable_secret"
-[opc@adgstudent1 ~]$ 
+[opc@primary ~]$ 
 ```
 
 
@@ -430,10 +430,10 @@ The standby database can be created from the active primary database.
 1. From Cloud side, switch to **oracle** user, create pdb directory, Replace `ORCL_nrt1d4` with your standby db unique name. If the directory exist, ignore the error
 
 ```
-[oracle@dbstby ~]$ mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed
+[oracle@dbcs ~]$ mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed
 mkdir: cannot create directory '/u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed': File exists
-[oracle@dbstby ~]$ mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/orclpdb
-[oracle@dbstby ~]$ mkdir -p /u03/app/oracle/redo/ORCL_nrt1d4/onlinelog
+[oracle@dbcs ~]$ mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/orclpdb
+[oracle@dbcs ~]$ mkdir -p /u03/app/oracle/redo/ORCL_nrt1d4/onlinelog
 ```
 
 2. Copy the following command, Replace `ORCL_nrt1d4` with your standby db unique name.
@@ -482,7 +482,7 @@ ORACLE instance shut down.
 SQL> exit
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
-[oracle@dbstby ~]$ rman target /
+[oracle@dbcs ~]$ rman target /
 
 Recovery Manager: Release 19.0.0.0.0 - Production on Fri Jan 31 12:41:27 2020
 Version 19.9.0.0.0
@@ -594,7 +594,7 @@ RMAN> exit
 
 
 Recovery Manager complete.
-[oracle@dbcloud ~]$ sqlplus / as sysdba
+[oracle@dbcs ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 11:16:31 2020
 Version 19.9.0.0.0
@@ -736,7 +736,7 @@ SQL>
 3. Register the database via DGMGRL. Replace `ORCL_nrt1d4` with your standby db unique name. You can run the command as **oracle** user from on-premise side or cloud side.
 
 ```
-[oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U@ORCL
+[oracle@dbcs ~]$ dgmgrl sys/Ora_DB4U@ORCL
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Feb 1 03:51:49 2020
 Version 19.9.0.0.0
 

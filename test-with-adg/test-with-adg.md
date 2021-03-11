@@ -17,7 +17,7 @@ This lab assumes you have already completed the following labs:
 1. From on-premise side, create a test user in orclpdb, and grant privileges to the user. You need  to check if the pdb is open.
 
 ```
-[oracle@workshop ~]$ sqlplus / as sysdba
+[oracle@primary ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 06:52:50 2020
 Version 19.9.0.0.0
@@ -58,7 +58,7 @@ SQL> exit;
 2. Connect with testuser using the on-premise host ip address or hostname, create test table and insert a test record.
 
 ```
-[oracle@workshop ~]$ sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb
+[oracle@primary ~]$ sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 06:59:56 2020
 Version 19.9.0.0.0
@@ -87,7 +87,7 @@ SQL>
 3. From cloud side, open the standby database as read only.
 
 ```
-[oracle@dbstby ~]$ sqlplus / as sysdba
+[oracle@dbcs ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 07:04:39 2020
 Version 19.9.0.0.0
@@ -129,7 +129,7 @@ READ ONLY WITH APPLY PHYSICAL STANDBY
 SQL> exit
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
-[oracle@dbstby ~]$ 
+[oracle@dbcs ~]$ 
 ```
 If the `OPEN_MODE` is **READ ONLY**, you can run the following command in sqlplus as sysdba, then check the `open_mode` again, you can see the `OPEN_MODE` is **READ ONLY WITH APPLY** now.
 ```
@@ -151,7 +151,7 @@ READ ONLY WITH APPLY PHYSICAL STANDBY
 4. From cloud side, connect as testuser to orclpdb using DBCS host ip address or hostname. Check if the test table and record has replicated to the standby.
 
 ```
-[oracle@dbstby ~]$ sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb
+[oracle@dbcs ~]$ sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 07:09:27 2020
 Version 19.9.0.0.0
@@ -193,7 +193,7 @@ There are several ways to check the lag between the primary and standby.
 2. From on-premise side, run as **oracle** user, download scripts using the command you copied.
 
    ```
-   [oracle@primary0 ~]$ wget https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/workload.sh
+   [oracle@primary ~]$ wget https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/workload.sh
    --2020-09-05 09:22:06--  https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/workload.sh
    Resolving github.com (github.com)... 140.82.112.4
    Connecting to github.com (github.com)|140.82.112.4|:443... connected.
@@ -210,7 +210,7 @@ There are several ways to check the lag between the primary and standby.
    
    2020-09-05 09:22:08 (12.4 MB/s) - ‘workload.sh’ saved [1442/1442]
    
-   [oracle@primary0 ~]$ wget https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/scn.sql
+   [oracle@primary ~]$ wget https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/scn.sql
    --2020-09-05 09:22:16--  https://github.com/minqiaowang/pts-hybrid-adg/raw/master/test-with-adg/scn.sql
    Resolving github.com (github.com)... 140.82.112.4
    Connecting to github.com (github.com)|140.82.112.4|:443... connected.
@@ -227,7 +227,7 @@ There are several ways to check the lag between the primary and standby.
    
    2020-09-05 09:22:17 (3.37 MB/s) - ‘scn.sql’ saved [108/108]
    
-   [oracle@primary0 ~]$ 
+   [oracle@primary ~]$ 
    ```
 
    
@@ -235,8 +235,8 @@ There are several ways to check the lag between the primary and standby.
 3. Change mode of the `workload.sh` file and run the workload. Ignore the error message of drop table. Keep this window open and running for the next few steps in this lab.
 
    ```
-   [oracle@primary0 ~]$ chmod a+x workload.sh 
-   [oracle@primary0 ~]$ . ./workload.sh 
+   [oracle@primary ~]$ chmod a+x workload.sh 
+   [oracle@primary ~]$ . ./workload.sh 
    
      NOTE:
      To break out of this batch
@@ -292,7 +292,7 @@ There are several ways to check the lag between the primary and standby.
 4. From the standby side, connect as **testuser** to orclpdb,  count the records in the sample table several times. Replace the `xxx.xxx.xxx.xxx` to the standby database hostname or public ip address. Compare the record number with the primary side.
 
    ```
-   [oracle@dbcs0 ~]$ sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb
+   [oracle@dbcs ~]$ sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb
    
    SQL*Plus: Release 19.0.0.0.0 - Production on Sat Sep 5 09:41:29 2020
    Version 19.9.0.0.0
@@ -355,7 +355,7 @@ There are several ways to check the lag between the primary and standby.
 7. Check lag using Data Guard Broker. Replace `ORCL_nrt1d4` with your standby database unique name.
 
    ```
-   [oracle@dbcs0 ~]$ dgmgrl sys/Ora_DB4U@orcl
+   [oracle@dbcs ~]$ dgmgrl sys/Ora_DB4U@orcl
    DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Sep 5 07:25:52 2020
    Version 19.9.0.0.0
    
@@ -398,7 +398,7 @@ Automatic redirection of DML operations to the primary can be configured at the 
 1. From the standby side, connect to orclpdb as **testuser**. Test the DML before and after the DML Redirection is enabled.
 
 ```
-[oracle@dbcs0 ~]$ sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb
+[oracle@dbcs ~]$ sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Sep 5 10:04:04 2020
 Version 19.9.0.0.0
@@ -451,7 +451,7 @@ You may encounter the performance issue when using the DML redirection. This is 
 2. From the primary side, connect with Data Guard Broker, check the current protection mode and redo transport mode. Replace the `orcl_nrt1d4` to your standby db unique name.
 
    ```
-   [oracle@primary0 ~]$ dgmgrl sys/Ora_DB4U@orcl
+   [oracle@primary ~]$ dgmgrl sys/Ora_DB4U@orcl
    DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sun Sep 6 05:09:28 2020
    Version 19.9.0.0.0
    
@@ -533,7 +533,7 @@ You may encounter the performance issue when using the DML redirection. This is 
    SQL> exit
    Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
    Version 19.9.0.0.0
-   [oracle@dbstby ~]$ 
+   [oracle@dbcs ~]$ 
    ```
 
    
@@ -576,7 +576,7 @@ Switchovers are always a planned event that guarantees no data is lost. To execu
 1. Connect DGMGRL from on-premise side, validate the standby database to see if Ready For Switchover is Yes. Replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
-[oracle@workshop ~]$ dgmgrl sys/Ora_DB4U@orcl
+[oracle@primary ~]$ dgmgrl sys/Ora_DB4U@orcl
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Feb 1 07:21:55 2020
 Version 19.9.0.0.0
 
@@ -645,7 +645,7 @@ DGMGRL>
 3. Check from on-premise side. You can see the previous primary side becomes the new standby side.
 
 ```
-[oracle@workshop ~]$ sqlplus / as sysdba
+[oracle@primary ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 10:16:54 2020
 Version 19.9.0.0.0
@@ -675,7 +675,7 @@ SQL>
 4. Check from cloud side. You can see it's becomes the new primary side.
 
 ```
-[oracle@dbstby ~]$ sqlplus / as sysdba
+[oracle@dbcs ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 10:20:06 2020
 Version 19.9.0.0.0

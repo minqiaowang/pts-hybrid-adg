@@ -20,7 +20,7 @@ In the previous lab, you have done the Data Guard switch over. Now, the current 
 1. From the Cloud side. Check the flashback status of the current primary database
 
 ```
-[oracle@dbstby ~]$ sqlplus / as sysdba
+[oracle@dbcs ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Wed Feb 5 05:31:25 2020
 Version 19.9.0.0.0
@@ -78,7 +78,7 @@ READ WRITE	     PRIMARY	      YES
 SQL> exit
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
-[oracle@dbstby ~]$ 
+[oracle@dbcs ~]$ 
 ```
 
 ## **Step 2:** Failover
@@ -86,7 +86,7 @@ Version 19.9.0.0.0
 1. Connect with DGMGRL, validate the primary and standby database
 
 ```
-[oracle@dbstby ~]$ dgmgrl sys/Ora_DB4U@orcl
+[oracle@dbcs ~]$ dgmgrl sys/Ora_DB4U@orcl
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Wed Feb 5 05:41:24 2020
 Version 19.9.0.0.0
 
@@ -173,7 +173,7 @@ Now, the primary is the on-premise database, and the standby database is disable
 1. In cloud side(the previous primary), connect to sqlplus as sysdba, shutdown the database and startup mount before reinstating. 
 
 ```
-[oracle@dbstby ~]$ sqlplus / as sysdba  
+[oracle@dbcs ~]$ sqlplus / as sysdba  
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Wed Feb 5 05:48:11 2020
 Version 19.9.0.0.0
@@ -201,7 +201,7 @@ Database mounted.
 SQL> exit
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
-[oracle@dbstby ~]$  
+[oracle@dbcs ~]$  
 ```
 
 2. Reinstate the database, replace `ORCL_nrt1d4` with your previous primary db unique name.
@@ -230,7 +230,7 @@ DGMGRL>
 3. Check the status of the new standby database
 
 ```
-[oracle@dbstby ~]$ sqlplus / as sysdba
+[oracle@dbcs ~]$ sqlplus / as sysdba
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Wed Feb 5 05:53:48 2020
 Version 19.9.0.0.0
