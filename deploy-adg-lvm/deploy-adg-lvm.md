@@ -40,32 +40,7 @@ To manually delete the database on the cloud host, run the steps below.
 3. Connect database as sysdba. Get the current `db_unique_name` for the Cloud database. 
 
 ```
-$ sqlplus / as sysdba
-SQL> <copy>select DB_UNIQUE_NAME from v$database;</copy>
-
-DB_UNIQUE_NAME
-------------------------------
-ORCL_nrt1d4
-```
-
-4. Copy the following scripts, replace the `ORCL_nrt1d4` with the standby `DB_UNIQUE_NAME` which you got in the previous step.
-
-   ```
-   <copy>
-   set heading off linesize 999 pagesize 0 feedback off trimspool on
-   spool /tmp/files.lst
-   select 'rm '||name from v$datafile union all select 'rm '||name from v$tempfile union all select 'rm '||member from v$logfile;
-   spool off
-   create pfile='/tmp/ORCL_nrt1d4.pfile' from spfile;
-   </copy>
-   ```
-
-   
-
-5. Run in sqlplus as sysdba. This will create a script to remove all database files. 
-
-```
-[oracle@dbcs ~]$ sqlplus / as sysdba
+[oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Fri Jan 31 08:20:03 2020
 Version 19.9.0.0.0
@@ -77,9 +52,21 @@ Connected to:
 Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
 
-SQL> set heading off linesize 999 pagesize 0 feedback off trimspool on
-SQL> spool /tmp/files.lst
-SQL> select 'rm '||name from v$datafile union all select 'rm '||name from v$tempfile union all select 'rm '||member from v$logfile;
+SQL> <copy>select DB_UNIQUE_NAME from v$database;</copy>
+
+DB_UNIQUE_NAME
+------------------------------
+ORCL_nrt1d4
+```
+
+
+
+5. Run the following commands in sqlplus as sysdba. Replace the `ORCL_nrt1d4` with the standby `DB_UNIQUE_NAME` which you got in the previous step. This will create a script to remove all database files. 
+
+```
+SQL> <copy>set heading off linesize 999 pagesize 0 feedback off trimspool on</copy>
+SQL> <copy>spool /tmp/files.lst</copy>
+SQL> <copy>select 'rm '||name from v$datafile union all select 'rm '||name from v$tempfile union all select 'rm '||member from v$logfile;</copy>
 rm /u02/app/oracle/oradata/ORCL_nrt1d4/PDB1/system01.dbf
 rm /u02/app/oracle/oradata/ORCL_nrt1d4/PDB1/sysaux01.dbf
 rm /u02/app/oracle/oradata/ORCL_nrt1d4/PDB1/undotbs01.dbf
@@ -92,8 +79,8 @@ rm /u03/app/oracle/oradata/ORCL_nrt1d4/srl_redo02.log
 rm /u03/app/oracle/oradata/ORCL_nrt1d4/srl_redo03.log
 rm /u03/app/oracle/oradata/ORCL_nrt1d4/redo04.log
 ...
-SQL> spool off
-SQL> create pfile='/tmp/ORCL_nrt1d4.pfile' from spfile;
+SQL> <copy>spool off</copy>
+SQL> <copy>create pfile='/tmp/ORCL_nrt1d4.pfile' from spfile;</copy>
 SQL>  
 ```
 
@@ -115,16 +102,22 @@ Version 19.9.0.0.0
 
  Remove the existing data files, log files, and tempfile(s). The password file will be replaced and the spfile will be reused. 
 
- Edit /tmp/files.lst created previously to remove any unneeded lines from sqlplus. Leaving all lines beginning with 'rm'. Then run it.
+ Edit /tmp/files.lst created previously to remove any unneeded lines from sqlplus. Leaving all lines beginning with 'rm'. 
 
  ```
- [oracle@dbcs ~]$ chmod 777 /tmp/files.lst
- [oracle@dbcs ~]$ vi /tmp/files.lst
- [oracle@dbcs ~]$ . /tmp/files.lst
- [oracle@dbcs ~]$ 
+ [oracle@dbcs ~]$ <copy>chmod 777 /tmp/files.lst</copy>
+ [oracle@dbcs ~]$ <copy>vi /tmp/files.lst</copy>
+ [oracle@dbcs ~]$
  ```
 
- All files for the starter database have now been removed. 
+8. Run the scripts.
+
+   ```
+   [oracle@dbcs ~]$ <copy>. /tmp/files.lst</copy>
+   [oracle@dbcs ~]$
+   ```
+
+   All files for the starter database have now been removed. 
 
 
 
@@ -169,26 +162,16 @@ Make sure that `$ORACLE_HOME/network/admin/sqlnet.ora` contains the following li
    ENCRYPTION_WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=/opt/oracle/dcs/commonstore/wallets/tde/$ORACLE_UNQNAME)))
    ```
 
-1. Copy the following command, change the (xxx.xxx.xxx.xxx) to the on-premise host public ip or hostname. Change `ORCL_nrt1d4` to the unique name of your standby db.
 
-   ```
-   <copy>
-   scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
-   scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/cwallet.sso /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
-   chmod 600 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4/*wallet*
-   </copy>
-   ```
 
-   
-
-2. Run this command as **oracle user**, copy the wallet files from on-premise host and change the files mode to 600.
+2. Run the following commands as **oracle user** from cloud side. Change the (xxx.xxx.xxx.xxx) to the on-premise host public ip or hostname and change `ORCL_nrt1d4` to the unique name of your standby db. These will copy the wallet files from on-premise host and change the files mode to 600.
 
 ```
-[oracle@dbcs ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
+[oracle@dbcs ~]$ <copy>scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/ewallet.p12 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4</copy>
 ewallet.p12                                                                                       100% 5467   153.2KB/s   00:00    
-[oracle@dbcs ~]$ scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/cwallet.sso /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4
+[oracle@dbcs ~]$ <copy>scp oracle@xxx.xxx.xxx.xxx:/u01/app/oracle/admin/ORCL/wallet/cwallet.sso /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4</copy>
 cwallet.sso                                                                                       100% 5512   147.4KB/s   00:00    
-[oracle@dbcs ~]$ chmod 600 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4/*wallet*
+[oracle@dbcs ~]$ <copy>chmod 600 /opt/oracle/dcs/commonstore/wallets/tde/ORCL_nrt1d4/*wallet*</copy>
 [oracle@dbcs ~]$
 ```
 
@@ -285,7 +268,7 @@ SID_LIST_LISTENER=
 3. Mount the Standby database.
 
 ```
-[oracle@dbcs ~]$ sqlplus / as sysdba
+[oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 10:50:18 2020
 Version 19.9.0.0.0
@@ -294,7 +277,7 @@ Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 Connected to an idle instance.
 
-SQL> startup mount
+SQL> <copy>startup mount</copy>
 ORACLE instance started.
 
 Total System Global Area 1.6106E+10 bytes
@@ -303,7 +286,7 @@ Variable Size		 2080374784 bytes
 Database Buffers	 1.3992E+10 bytes
 Redo Buffers		   24399872 bytes
 Database mounted.
-SQL> exit
+SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
 Version 19.9.0.0.0
 [oracle@dbcs ~]$ 
@@ -322,6 +305,7 @@ Version 19.9.0.0.0
 Add following lines into tnsnames.ora, replace xxx.xxx.xxx.xxx with the public ip or hostname of the cloud hosts, replace `ORCL_nrt1d4` with your standby db unique name.
 
 ```
+<copy>
 ORCL_nrt1d4 =
   (DESCRIPTION =
    (SDU=65536)
@@ -336,12 +320,13 @@ ORCL_nrt1d4 =
       (UR=A)
     )
   )
+</copy>  
 ```
 
 2. From cloud side, switch as **oracle** user, edit the tnsnames.ora
 
 ```
-vi $ORACLE_HOME/network/admin/tnsnames.ora
+<copy>vi $ORACLE_HOME/network/admin/tnsnames.ora</copy>
 ```
 
 In the `ORCL_NRT1D4`(Standby db unique name) description, delete the domain name of the SERVICE_NAME. Add the ORCL description, replace xxx.xxx.xxx.xxx with the public ip or hostname of the on-premise hosts.  It's looks like the following.  Replace `ORCL_nrt1d4` with your standby db unique name.
@@ -431,47 +416,36 @@ The standby database can be created from the active primary database.
 1. From Cloud side, switch to **oracle** user, create pdb directory, Replace `ORCL_nrt1d4` with your standby db unique name. If the directory exist, ignore the error
 
 ```
-[oracle@dbcs ~]$ mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed
+[oracle@dbcs ~]$ <copy>mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed</copy>
 mkdir: cannot create directory '/u02/app/oracle/oradata/ORCL_nrt1d4/pdbseed': File exists
-[oracle@dbcs ~]$ mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/orclpdb
-[oracle@dbcs ~]$ mkdir -p /u03/app/oracle/redo/ORCL_nrt1d4/onlinelog
+[oracle@dbcs ~]$ <copy>mkdir -p /u02/app/oracle/oradata/ORCL_nrt1d4/orclpdb</copy>
+[oracle@dbcs ~]$ <copy>mkdir -p /u03/app/oracle/redo/ORCL_nrt1d4/onlinelog</copy>
 ```
 
-2. Copy the following command, Replace `ORCL_nrt1d4` with your standby db unique name.
 
-   ```
-   <copy>
-   alter system set db_file_name_convert='/u01/app/oracle/oradata/ORCL','/u02/app/oracle/oradata/ORCL_nrt1d4' scope=spfile;
-   alter system set db_create_online_log_dest_1='/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
-   alter system set log_file_name_convert='/u01/app/oracle/oradata/ORCL','/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
-   alter system set db_domain='' scope=spfile;
-   </copy>
-   ```
 
-   
-
-3. Run the command in sqlplus as sysdba. This will modify the db and log file name convert parameter, unset `db_domain`. 
+3. Run the following commands in sqlplus as sysdba. Replace `ORCL_nrt1d4` with your standby db unique name. This will modify the db and log file name convert parameter, unset `db_domain`. 
 
 **Note:** The different database domain name of the on-premise and cloud will cause DML Redirection error, in this lab, we don't use the database domain.
 
 ```
-SQL> ALTER SYSTEM SET db_file_name_convert='/u01/app/oracle/oradata/ORCL','/u02/app/oracle/oradata/ORCL_nrt1d4' scope=spfile;
+SQL> <copy>alter system set db_file_name_convert='/u01/app/oracle/oradata/ORCL','/u02/app/oracle/oradata/ORCL_nrt1d4' scope=spfile;</copy>
 
 System altered.
-SQL> alter system set db_create_online_log_dest_1='/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
+SQL> <copy>alter system set db_create_online_log_dest_1='/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;</copy>
 
 System altered.
 
-SQL> alter system set log_file_name_convert='/u01/app/oracle/oradata/ORCL','/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;
+SQL> <copy>alter system set log_file_name_convert='/u01/app/oracle/oradata/ORCL','/u03/app/oracle/redo/ORCL_nrt1d4/onlinelog' scope=spfile;</copy>
 
 System altered.
-SQL> alter system set db_domain='' scope=spfile;
+SQL> <copy>alter system set db_domain='' scope=spfile;</copy>
 
 System altered.
 SQL> 
 ```
 
-4. Shutdown the database, connect with RMAN. Then startup database nomount.
+3. Shutdown the database, connect with RMAN. Then startup database nomount.
 
 ```
 SQL> <copy>shutdown immediate</copy>
@@ -508,30 +482,30 @@ Redo Buffers                  24399872 bytes
 RMAN> 
 ```
 
-5. Restore control file from on-premise database.
+4. Restore control file from on-premise database.
 
-   ```
-   RMAN> <copy>restore standby controlfile from service 'ORCL';</copy>
-   
-   Starting restore at 01-FEB-20
-   using target database control file instead of recovery catalog
-   allocated channel: ORA_DISK_1
-   channel ORA_DISK_1: SID=11 device type=DISK
-   
-   channel ORA_DISK_1: starting datafile backup set restore
-   channel ORA_DISK_1: using network backup set from service ORCL
-   channel ORA_DISK_1: restoring control file
-   channel ORA_DISK_1: restore complete, elapsed time: 00:00:02
-   output file name=/u02/app/oracle/oradata/ORCL_nrt1d4/control01.ctl
-   output file name=/u03/app/oracle/fast_recovery_area/ORCL_nrt1d4/control02.ctl
-   Finished restore at 01-FEB-20
-   
-   RMAN> 
-   ```
+```
+RMAN> <copy>restore standby controlfile from service 'ORCL';</copy>
 
-   
+Starting restore at 01-FEB-20
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=11 device type=DISK
 
-6.  Mount the cloud database.
+channel ORA_DISK_1: starting datafile backup set restore
+channel ORA_DISK_1: using network backup set from service ORCL
+channel ORA_DISK_1: restoring control file
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:02
+output file name=/u02/app/oracle/oradata/ORCL_nrt1d4/control01.ctl
+output file name=/u03/app/oracle/fast_recovery_area/ORCL_nrt1d4/control02.ctl
+Finished restore at 01-FEB-20
+
+RMAN> 
+```
+
+
+
+5. Mount the cloud database.
 
 ```
 RMAN> <copy>alter database mount;</copy>
@@ -542,7 +516,7 @@ Statement processed
 RMAN> 
 ```
 
-7. Now, restore database from on-premise database.
+6. Now, restore database from on-premise database.
 
 ```
 RMAN> <copy>restore database from service 'ORCL' section size 5G;</copy>
@@ -593,25 +567,25 @@ Finished restore at 01-FEB-20
 RMAN> 
 ```
 
-8. Shutdown the database.
+7. Shutdown the database.
 
-   ```
-   RMAN> <copy>shutdown immediate</copy>
-   
-   database dismounted
-   Oracle instance shut down
-   
-   RMAN> <copy>exit</copy>
-   
-   
-   Recovery Manager complete.
-   
-   [oracle@dbcs ~]$ 
-   ```
+```
+RMAN> <copy>shutdown immediate</copy>
 
-   
+database dismounted
+Oracle instance shut down
 
-9. Connect to sqlplus as sysdba and mount the database again.
+RMAN> <copy>exit</copy>
+
+
+Recovery Manager complete.
+
+[oracle@dbcs ~]$ 
+```
+
+
+
+8. Connect to sqlplus as sysdba and mount the database again.
 
 ```
 [oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
@@ -639,26 +613,14 @@ SQL>
 
 ## **Step 7:** Clear all online and standby redo logs 
 
-1. Copy the following command.
 
-   ```
-   <copy>
-   set pagesize 0 feedback off linesize 120 trimspool on
-   spool /tmp/clearlogs.sql
-   select distinct 'alter database clear logfile group '||group#||';' from v$logfile;
-   spool off
-   @/tmp/clearlogs.sql
-   </copy>
-   ```
 
-   
-
-2. Run the command in sqlplus as sysdba, this will clear or create new online and standby redo log, ignore the unknown command.
+2. Run the commands in sqlplus as sysdba, this will clear or create new online and standby redo log, ignore the unknown command.
 
 ```
-SQL> set pagesize 0 feedback off linesize 120 trimspool on
-SQL> spool /tmp/clearlogs.sql
-SQL> select distinct 'alter database clear logfile group '||group#||';' from v$logfile;
+SQL> <copy>set pagesize 0 feedback off linesize 120 trimspool on</copy>
+SQL> <copy>spool /tmp/clearlogs.sql</copy>
+SQL> <copy>select distinct 'alter database clear logfile group '||group#||';' from v$logfile;</copy>
 alter database clear logfile group 1;
 alter database clear logfile group 2;
 alter database clear logfile group 3;
@@ -666,8 +628,8 @@ alter database clear logfile group 4;
 alter database clear logfile group 5;
 alter database clear logfile group 6;
 alter database clear logfile group 7;
-SQL> spool off
-SQL> @/tmp/clearlogs.sql
+SQL> <copy>spool off</copy>
+SQL> <copy>@/tmp/clearlogs.sql</copy>
 SP2-0734: unknown command beginning "SQL> selec..." - rest of line ignored.
 
 SP2-0734: unknown command beginning "SQL> spool..." - rest of line ignored.
@@ -756,7 +718,7 @@ SQL>
 3. Register the database via DGMGRL. Replace `ORCL_nrt1d4` with your standby db unique name. You can run the command as **oracle** user from on-premise side or cloud side.
 
 ```
-[oracle@dbcs ~]$ dgmgrl sys/Ora_DB4U@ORCL
+[oracle@dbcs ~]$ <copy>dgmgrl sys/Ora_DB4U@ORCL</copy>
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Feb 1 03:51:49 2020
 Version 19.9.0.0.0
 
@@ -766,16 +728,16 @@ Welcome to DGMGRL, type "help" for information.
 Connected to "ORCL"
 Connected as SYSDBA.
 
-DGMGRL> CREATE CONFIGURATION adgconfig AS PRIMARY DATABASE IS ORCL CONNECT IDENTIFIER IS ORCL;
+DGMGRL> <copy>CREATE CONFIGURATION adgconfig AS PRIMARY DATABASE IS ORCL CONNECT IDENTIFIER IS ORCL;</copy>
 Configuration "adgconfig" created with primary database "orcl"
 
-DGMGRL> ADD DATABASE ORCL_nrt1d4 AS CONNECT IDENTIFIER IS ORCL_nrt1d4 MAINTAINED AS PHYSICAL;
+DGMGRL> <copy>ADD DATABASE ORCL_nrt1d4 AS CONNECT IDENTIFIER IS ORCL_nrt1d4 MAINTAINED AS PHYSICAL;</copy>
 Database "orcl_nrt1d4" added
 
-DGMGRL> enable configuration;
+DGMGRL> <copy>ENABLE CONFIGURATION;</copy>
 Enabled.
 
-DGMGRL> SHOW CONFIGURATION;
+DGMGRL> <copy>SHOW CONFIGURATION;</copy>
 
 Configuration - adgconfig
 

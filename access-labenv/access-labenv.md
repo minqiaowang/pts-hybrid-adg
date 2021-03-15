@@ -5,6 +5,7 @@ In this lab, you will learn how to access your ADG workshop environment. You wil
 
 - A VM which already have installed a database 19c to simulate the on-premise database. You can connect to the VM instance with a ssh tools. The hostname and public ip address will be provide by the instructor.
 - A Database Cloud Service which act as the standby database in the workshop. You will be assigned an OCI account to log into the Oracle Cloud console to access and manage your DBCS.
+- Both database named ORCL, and have a pdb named orclpdb.
 
 Estimated Lab Time: 20 minutes
 

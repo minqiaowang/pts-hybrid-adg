@@ -40,13 +40,13 @@ Oracle MAA best practice recommends using Oracle Transparent Data Encryption (TD
 <copy>mkdir -p /u01/app/oracle/admin/ORCL/wallet</copy>
 ```
 
-3. Edit sqlnet.ora
+4. Edit sqlnet.ora
 
 ```
 <copy>vi $ORACLE_HOME/network/admin/sqlnet.ora</copy>
 ```
 
-4. Add following lines to the file, save and exit.
+5. Add following lines to the file, save and exit.
 
 ```
 <copy>
@@ -59,7 +59,7 @@ ENCRYPTION_WALLET_LOCATION =
 </copy>
 ```
 
-5. Connect to sqlplus as sysdba.
+6. Connect to sqlplus as sysdba.
 
 ```
 [oracle@primary ~]$ <copy>sqlplus / as sysdba</copy>
@@ -77,19 +77,19 @@ Version 19.9.0.0.0
 SQL> 
 ```
 
-6. Create keystore.
+7. Create keystore.
 
-   ```
-   SQL> <copy>administer key management create keystore '/u01/app/oracle/admin/ORCL/wallet' identified by "Ora_DB4U";</copy>
-   
-   keystore altered.
-   
-   SQL> 
-   ```
+```
+SQL> <copy>administer key management create keystore '/u01/app/oracle/admin/ORCL/wallet' identified by "Ora_DB4U";</copy>
 
-   
+keystore altered.
 
-7. Open the keystore.
+SQL> 
+```
+
+
+
+8. Open the keystore.
 
 ```
 SQL> <copy>administer key management set keystore open identified by "Ora_DB4U" container=all;</copy>
@@ -99,7 +99,7 @@ keystore altered.
 SQL> 
 ```
 
-7. Create master key.
+9. Create master key.
 
 ```
 SQL> <copy>administer key management set key identified by "Ora_DB4U" with backup using 'backup' container=all;</copy>
@@ -109,7 +109,7 @@ keystore altered.
 SQL>
 ```
 
-8. Verify the keystore, you can see the wallet is openned by password.
+10. Verify the keystore, you can see the wallet is openned by password.
 
 ```
 SQL> <copy>select * from v$encryption_wallet;</copy>
@@ -159,7 +159,7 @@ OPEN			       PASSWORD 	    SINGLE    UNITED   NO
 SQL> 
 ```
 
-9. Make keystore autologin.
+11. Make keystore autologin.
 
 ```
 SQL> <copy>administer key management create auto_login keystore from keystore '/u01/app/oracle/admin/ORCL/wallet' identified by "Ora_DB4U";</copy>
@@ -169,7 +169,7 @@ keystore altered.
 SQL> 
 ```
 
-10. Reset wallet from PASSWORD to AUTOLOGIN mode.
+12. Reset wallet from PASSWORD to AUTOLOGIN mode.
 
 ```
 SQL> <copy>administer key management set keystore close identified by "Ora_DB4U" container=all;</copy>
@@ -179,7 +179,7 @@ keystore altered.
 SQL> 
 ```
 
-11. Verify the keystore again, now you can see the wallet is configure to autologin.
+13. Verify the keystore again, now you can see the wallet is configure to autologin.
 
 ```
 SQL> <copy>select * from v$encryption_wallet;</copy>
@@ -343,7 +343,7 @@ SQLNET.CRYPTO_CHECKSUM_TYPES_CLIENT=(SHA1)
 4. Check the network service banner again, the network encryption is enable now.
 
 ```
-[oracle@workshop ~]$ sqlplus / as sysdba
+[oracle@workshop ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Fri Jan 31 03:51:46 2020
 Version 19.9.0.0.0
