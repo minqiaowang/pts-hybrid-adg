@@ -170,43 +170,30 @@ Now, the primary is the on-premise database, and the standby database is disable
 
 ## **Step 3:** Reinstate the previous primary database
 
-1. In cloud side(the previous primary), connect to sqlplus as sysdba, shutdown the database and startup mount before reinstating. 
+1. Connect o the cloud side(the previous primary), replace `ORCL_nrt1d4` with your previous primary db unique name. Shutdown the database and startup mount before reinstating. 
 
 ```
-[oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>  
-
-SQL*Plus: Release 19.0.0.0.0 - Production on Wed Feb 5 05:48:11 2020
-Version 19.9.0.0.0
-
-Copyright (c) 1982, 2019, Oracle.  All rights reserved.
-
-
-Connected to:
-Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
-
-SQL> <copy>shutdown immediate</copy>
+DGMGRL> <copy>connect sys/Ora_DB4U@orcl_phx1xp</copy>
+Connected to "ORCL_phx1xp"
+Connected as SYSDBA.
+DGMGRL> <copy>shutdown immediate</copy>
 Database closed.
 Database dismounted.
 ORACLE instance shut down.
-SQL> <copy>startup mount</copy>
+Connected to an idle instance.
+DGMGRL> <copy>startup mount</copy>
+Connected to "ORCL_phx1xp"
 ORACLE instance started.
-
-Total System Global Area 1.6106E+10 bytes
-Fixed Size		    9154008 bytes
-Variable Size		 2080374784 bytes
-Database Buffers	 1.3992E+10 bytes
-Redo Buffers		   24399872 bytes
 Database mounted.
-SQL> <copy>exit</copy>
-Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
-[oracle@dbcs ~]$  
+DGMGRL>  
 ```
 
-2. Reinstate the database, replace `ORCL_nrt1d4` with your previous primary db unique name.
+2. Connect to the new primary side, reinstate the standby database, replace `ORCL_nrt1d4` with your previous primary db unique name.
 
 ```
+DGMGRL> <copy>connect sys/Ora_DB4U@orcl</copy>
+Connected to "ORCL"
+Connected as SYSDBA.
 DGMGRL> <copy>reinstate database orcl_nrt1d4</copy>
 Reinstating database "orcl_nrt1d4", please wait...
 Reinstatement of database "orcl_nrt1d4" succeeded
