@@ -48,7 +48,7 @@ variable "db_edition" {
 }
 
 variable "db_version" {
-  default = "19.9.0.0"
+  default = "19.10.0.0"
 }
 
 variable "db_workload" {

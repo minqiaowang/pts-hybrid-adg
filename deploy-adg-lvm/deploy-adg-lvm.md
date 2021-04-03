@@ -43,14 +43,14 @@ To manually delete the database on the cloud host, run the steps below.
 [oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Fri Jan 31 08:20:03 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 
 Connected to:
 Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> <copy>select DB_UNIQUE_NAME from v$database;</copy>
 
@@ -94,7 +94,7 @@ ORACLE instance shut down.
 
 SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 [oracle@dbcs ~]$ 
 ```
 
@@ -271,7 +271,7 @@ SID_LIST_LISTENER=
 [oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 10:50:18 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
@@ -288,7 +288,7 @@ Redo Buffers		   24399872 bytes
 Database mounted.
 SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 [oracle@dbcs ~]$ 
 ```
 
@@ -457,12 +457,12 @@ ORACLE instance shut down.
 
 SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 [oracle@dbcs ~]$ <copy>rman target /</copy>
 
 Recovery Manager: Release 19.0.0.0.0 - Production on Fri Jan 31 12:41:27 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 
@@ -591,7 +591,7 @@ Recovery Manager complete.
 [oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 11:16:31 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
@@ -720,7 +720,7 @@ SQL>
 ```
 [oracle@dbcs ~]$ <copy>dgmgrl sys/Ora_DB4U@ORCL</copy>
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Feb 1 03:51:49 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 

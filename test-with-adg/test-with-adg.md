@@ -20,14 +20,14 @@ This lab assumes you have already completed the following labs:
 [oracle@primary ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 06:52:50 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 
 Connected to:
 Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> <copy>show pdbs</copy>
 
@@ -61,14 +61,14 @@ SQL> <copy>exit;</copy>
 [oracle@primary ~]$ <copy>sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 06:59:56 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 
 Connected to:
 Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> <copy>create table test(a number,b varchar2(20));</copy>
 
@@ -90,14 +90,14 @@ SQL>
 [oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 07:04:39 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 
 Connected to:
 Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> <copy>select open_mode,database_role from v$database;</copy>
 
@@ -128,7 +128,7 @@ READ ONLY WITH APPLY PHYSICAL STANDBY
 
 SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 [oracle@dbcs ~]$ 
 ```
 If the `OPEN_MODE` is **READ ONLY**, you can run the following command in sqlplus as sysdba, then check the `open_mode` again, you can see the `OPEN_MODE` is **READ ONLY WITH APPLY** now.
@@ -156,7 +156,7 @@ If you encounter an error message: `ORA-01153: an incompatible media recovery is
 [oracle@dbcs ~]$ <copy>sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 07:09:27 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
@@ -164,7 +164,7 @@ Last Successful login time: Sat Feb 01 2020 06:59:56 +00:00
 
 Connected to:
 Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> <copy>select * from test;</copy>
 
@@ -287,7 +287,7 @@ There are several ways to check the lag between the primary and standby.
    [oracle@dbcs ~]$ <copy>sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb</copy>
    
    SQL*Plus: Release 19.0.0.0.0 - Production on Sat Sep 5 09:41:29 2020
-   Version 19.9.0.0.0
+   Version 19.10.0.0.0
    
    Copyright (c) 1982, 2020, Oracle.  All rights reserved.
    
@@ -295,7 +295,7 @@ There are several ways to check the lag between the primary and standby.
    
    Connected to:
    Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-   Version 19.9.0.0.0
+   Version 19.10.0.0.0
    
    SQL> <copy>select count(*) from sale_orders;</copy>
    
@@ -349,7 +349,7 @@ There are several ways to check the lag between the primary and standby.
    ```
    [oracle@dbcs ~]$ <copy>dgmgrl sys/Ora_DB4U@orcl</copy>
    DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Sep 5 07:25:52 2020
-   Version 19.9.0.0.0
+   Version 19.10.0.0.0
    
    Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
    
@@ -393,7 +393,7 @@ Automatic redirection of DML operations to the primary can be configured at the 
 [oracle@dbcs ~]$ <copy>sqlplus testuser/testuser@xxx.xxx.xxx.xxx:1521/orclpdb<copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Sep 5 10:04:04 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2020, Oracle.  All rights reserved.
 
@@ -401,7 +401,7 @@ Last Successful login time: Sat Sep 05 2020 02:09:45 +00:00
 
 Connected to:
 Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> <copy>set timing on</copy>
 SQL> <copy>insert into test values(2,'line2');</copy>
@@ -445,7 +445,7 @@ You may encounter the performance issue when using the DML redirection. This is 
    ```
    [oracle@primary ~]$ <copy>dgmgrl sys/Ora_DB4U@orcl</copy>
    DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sun Sep 6 05:09:28 2020
-   Version 19.9.0.0.0
+   Version 19.10.0.0.0
    
    Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
    
@@ -524,7 +524,7 @@ You may encounter the performance issue when using the DML redirection. This is 
    Elapsed: 00:00:00.03
    SQL> <copy>exit</copy>
    Disconnected from Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-   Version 19.9.0.0.0
+   Version 19.10.0.0.0
    [oracle@dbcs ~]$ 
    ```
 
@@ -570,7 +570,7 @@ Switchovers are always a planned event that guarantees no data is lost. To execu
 ```
 [oracle@primary ~]$ <copy>dgmgrl sys/Ora_DB4U@orcl</copy>
 DGMGRL for Linux: Release 19.0.0.0.0 - Production on Sat Feb 1 07:21:55 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 
@@ -640,14 +640,14 @@ DGMGRL>
 [oracle@primary ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 10:16:54 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 
 Connected to:
 Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> <copy>show pdbs</copy>
 
@@ -670,14 +670,14 @@ SQL>
 [oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Sat Feb 1 10:20:06 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 
 Connected to:
 Oracle Database 19c EE Extreme Perf Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> <copy>show pdbs</copy>
 

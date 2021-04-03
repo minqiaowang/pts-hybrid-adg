@@ -6,7 +6,11 @@ variable "AD" { default = 1 }
 variable "instance_shape" {
   default = "VM.Standard2.1"
 }
-
+variable "package_version" {
+  default = "Oracle Database 19.9.0.0.201020 - OL7U9"
+  #default = "Oracle Database 19.7.0.0.200414"
+  #default = "Oracle Database 19.9.0.0.201020 - AL7U9"
+}
 
 variable "compartment_ocid" {}
 variable "ssh_public_key" {}
@@ -112,21 +116,67 @@ resource "oci_core_default_security_list" "default-security-list" {
 # Found image id from Marketplace and get signature
 ##
 #    Resource Elements
-resource "oci_core_app_catalog_subscription" "generated_oci_core_app_catalog_subscription" {
-	compartment_id = "${var.compartment_ocid}"
-	eula_link = "${oci_core_app_catalog_listing_resource_version_agreement.generated_oci_core_app_catalog_listing_resource_version_agreement.eula_link}"
-	listing_id = "${oci_core_app_catalog_listing_resource_version_agreement.generated_oci_core_app_catalog_listing_resource_version_agreement.listing_id}"
-	listing_resource_version = "Oracle_Database_19.10.0.0.210119_-_OL7U9"
-	oracle_terms_of_use_link = "${oci_core_app_catalog_listing_resource_version_agreement.generated_oci_core_app_catalog_listing_resource_version_agreement.oracle_terms_of_use_link}"
-	signature = "${oci_core_app_catalog_listing_resource_version_agreement.generated_oci_core_app_catalog_listing_resource_version_agreement.signature}"
-	time_retrieved = "${oci_core_app_catalog_listing_resource_version_agreement.generated_oci_core_app_catalog_listing_resource_version_agreement.time_retrieved}"
+
+resource "oci_marketplace_accepted_agreement" "test_accepted_agreement" {
+  #Required
+  agreement_id    = oci_marketplace_listing_package_agreement.test_listing_package_agreement.agreement_id
+  compartment_id  = var.compartment_ocid
+  listing_id      = data.oci_marketplace_listing.test_listing.id
+  #package_version = data.oci_marketplace_listing.test_listing.default_package_version
+  package_version = data.oci_marketplace_listing_packages.test_listing_packages.listing_packages[0].package_version
+  signature       = oci_marketplace_listing_package_agreement.test_listing_package_agreement.signature
+}
+resource "oci_marketplace_listing_package_agreement" "test_listing_package_agreement" {
+  #Required
+  agreement_id    = data.oci_marketplace_listing_package_agreements.test_listing_package_agreements.agreements[0].id
+  listing_id      = data.oci_marketplace_listing.test_listing.id
+  #package_version = data.oci_marketplace_listing.test_listing.default_package_version
+  package_version = data.oci_marketplace_listing_packages.test_listing_packages.listing_packages[0].package_version
 }
 
-resource "oci_core_app_catalog_listing_resource_version_agreement" "generated_oci_core_app_catalog_listing_resource_version_agreement" {
-	listing_id = "ocid1.appcataloglisting.oc1..aaaaaaaaheuwo4wunrr4eqn6hab36sgeur5xb25nbs5v4f4w3cytjcqysurq"
-	listing_resource_version = "Oracle_Database_19.10.0.0.210119_-_OL7U9"
+#    Data Elements
+
+data "oci_marketplace_listing_package_agreements" "test_listing_package_agreements" {
+  #Required
+  listing_id      = data.oci_marketplace_listing.test_listing.id
+  #package_version = data.oci_marketplace_listing.test_listing.default_package_version
+  package_version = data.oci_marketplace_listing_packages.test_listing_packages.listing_packages[0].package_version
+  #Optional
+  compartment_id = var.compartment_ocid
+}
+data "oci_marketplace_listing_package" "test_listing_package" {
+  #Required
+  listing_id      = data.oci_marketplace_listing.test_listing.id
+  #package_version = data.oci_marketplace_listing.test_listing.default_package_version
+  package_version = data.oci_marketplace_listing_packages.test_listing_packages.listing_packages[0].package_version
+  #Optional
+  compartment_id = var.compartment_ocid
 }
 
+data "oci_marketplace_listing_packages" "test_listing_packages" {
+  #Required
+  listing_id = data.oci_marketplace_listing.test_listing.id
+
+  #Optional
+  compartment_id = var.compartment_ocid
+  package_version = var.package_version
+}
+
+data "oci_marketplace_listing" "test_listing" {
+  listing_id     = data.oci_marketplace_listings.test_listings.listings[0].id
+  compartment_id = var.compartment_ocid
+}
+
+data "oci_marketplace_listings" "test_listings" {
+  #category       = ["Other"]
+  name = ["Oracle Database"]
+  compartment_id = var.compartment_ocid
+}
+
+data "oci_core_app_catalog_listing_resource_version" "test_catalog_listing" {
+  listing_id = data.oci_marketplace_listing_package.test_listing_package.app_catalog_listing_id
+  resource_version = data.oci_marketplace_listing_package.test_listing_package.app_catalog_listing_resource_version
+}
 
 # Compute Instances
 resource "oci_core_instance" "ssworkshop_instance" {
@@ -145,7 +195,7 @@ resource "oci_core_instance" "ssworkshop_instance" {
 
   source_details {
     source_type = "image"
-    source_id   = "ocid1.image.oc1..aaaaaaaae27qas3nmkx2pjngxacb7jj5yhxop7nxego2pfjen47xjtrjucqa"
+    source_id   = data.oci_core_app_catalog_listing_resource_version.test_catalog_listing.listing_resource_id
 
   }
 
@@ -153,10 +203,7 @@ resource "oci_core_instance" "ssworkshop_instance" {
     ssh_authorized_keys = "${var.ssh_public_key}"
     user_data           = "${base64encode(file("custom-db.sh"))}"
   }
-  
-  depends_on = [
-		oci_core_app_catalog_subscription.generated_oci_core_app_catalog_subscription
-	]
+
 }
 
 output "instance_public_ips" {

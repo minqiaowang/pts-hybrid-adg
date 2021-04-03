@@ -34,6 +34,7 @@ variableGroups:
       - ${ssh_public_key}
   - title: "Hidden"
     variables:
+      - ${package_version}
       - ${compartment_ocid}
       - ${tenancy_ocid}
       - ${region}

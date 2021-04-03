@@ -65,14 +65,14 @@ ENCRYPTION_WALLET_LOCATION =
 [oracle@primary ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Fri Jan 31 03:26:52 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 
 Connected to:
 Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> 
 ```
@@ -315,7 +315,7 @@ Crypto-checksumming service for Linux: Version 19.0.0.0.0 - Production
 
 SQL> <copy>exit</copy>
 Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 [oracle@primary ~]$
 ```
 
@@ -346,14 +346,14 @@ SQLNET.CRYPTO_CHECKSUM_TYPES_CLIENT=(SHA1)
 [oracle@workshop ~]$ <copy>sqlplus / as sysdba</copy>
 
 SQL*Plus: Release 19.0.0.0.0 - Production on Fri Jan 31 03:51:46 2020
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
 
 Connected to:
 Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.9.0.0.0
+Version 19.10.0.0.0
 
 SQL> <copy>set linesize 120</copy>
 SQL> <copy>col network_service_banner for a85</copy>
