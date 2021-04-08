@@ -216,7 +216,7 @@ DGMGRL>
 
 if there is a warning message, `Warning: ORA-16809: multiple warnings detected for the member.` or `Warning: ORA-16854: apply lag could not be determined.` You can wait serveral minutes and show configuration again.
 
-1. Check the status of the new standby database
+3. Check the status of the new standby database
 
 ```
 [oracle@dbcs ~]$ <copy>sqlplus / as sysdba</copy>
